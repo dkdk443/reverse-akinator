@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession, incrementAiQuestionCount, getAiQuestionRemaining } from '@/lib/session';
 import { getPersonById } from '@/lib/db';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export async function POST(request: NextRequest) {
   try {
@@ -59,6 +60,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Google Generative AI SDKを初期化
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+
     const systemPrompt = `あなたは「アキネーター」のような推理ゲームのAIゲームマスターです。
 正解の歴史上の人物は「${targetPerson.name} (${targetPerson.name_en})」です。
 ユーザーはこの人物を特定するために「はい」か「いいえ」で答えられる質問をしてきます。
@@ -69,46 +74,13 @@ export async function POST(request: NextRequest) {
 - "いいえ"
 - "どちらとも言えない" (史実が曖昧な場合や、質問が的外れな場合)
 
-絶対に正解の人物名を明かさないでください。`;
+絶対に正解の人物名を明かさないでください。
 
-    const requestBody = {
-      contents: [{
-        parts: [{ text: `${systemPrompt}\n\nユーザーの質問: ${question}` }]
-      }],
-    };
+ユーザーの質問: ${question}`;
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody),
-      }
-    );
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Gemini API error:', {
-        status: response.status,
-        statusText: response.statusText,
-        error: errorText
-      });
-
-      // レート制限エラーの場合、より分かりやすいメッセージを返す
-      if (response.status === 429) {
-        return NextResponse.json(
-          { error: 'AI質問の利用制限に達しました。しばらく待ってから再度お試しください。', answer: 'しばらく待ってからもう一度お試しください' },
-          { status: 429 }
-        );
-      }
-
-      throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    console.log('Gemini API response:', JSON.stringify(data, null, 2));
-
-    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || 'エラーが発生しました';
+    const result = await model.generateContent(systemPrompt);
+    const response = await result.response;
+    const answer = response.text().trim() || 'エラーが発生しました';
 
     const remaining = getAiQuestionRemaining(sessionId);
 
@@ -117,11 +89,21 @@ export async function POST(request: NextRequest) {
       remainingCount: remaining,
       message: `AI質問は残り${remaining}回です`,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('AI question error:', error);
-    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+    console.error('Error message:', error?.message);
+    console.error('Error stack:', error?.stack);
+
+    // レート制限エラー
+    if (error?.message?.includes('429') || error?.message?.includes('quota')) {
+      return NextResponse.json(
+        { error: 'AI質問の利用制限に達しました。しばらく待ってから再度お試しください。' },
+        { status: 429 }
+      );
+    }
+
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to process AI question' },
+      { error: error?.message || 'AI質問の処理に失敗しました' },
       { status: 500 }
     );
   }
