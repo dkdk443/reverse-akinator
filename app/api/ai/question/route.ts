@@ -71,15 +71,18 @@ export async function POST(request: NextRequest) {
 
 絶対に正解の人物名を明かさないでください。`;
 
+    const requestBody = {
+      contents: [{
+        parts: [{ text: `${systemPrompt}\n\nユーザーの質問: ${question}` }]
+      }],
+    };
+
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: question }] }],
-          systemInstruction: { parts: [{ text: systemPrompt }] },
-        }),
+        body: JSON.stringify(requestBody),
       }
     );
 
