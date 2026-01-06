@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
 絶対に正解の人物名を明かさないでください。`;
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -90,6 +90,15 @@ export async function POST(request: NextRequest) {
         statusText: response.statusText,
         error: errorText
       });
+
+      // レート制限エラーの場合、より分かりやすいメッセージを返す
+      if (response.status === 429) {
+        return NextResponse.json(
+          { error: 'AI質問の利用制限に達しました。しばらく待ってから再度お試しください。', answer: 'しばらく待ってからもう一度お試しください' },
+          { status: 429 }
+        );
+      }
+
       throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
     }
 
