@@ -9,6 +9,7 @@
     "lint": "next lint",
     "db:init": "node scripts/init-db.js",
     "db:seed": "node scripts/seed-db.js",
+    "db:seed-100": "node scripts/seed-100-persons.js",
     "db:export": "node scripts/export-csv.js"
   },
   "dependencies": {

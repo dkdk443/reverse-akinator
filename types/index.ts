@@ -3,10 +3,24 @@ export interface Person {
   id: number;
   name: string;
   name_en: string | null;
-  description: string | null;
-  image_url: string | null;
   birth_year: number | null;
   death_year: number | null;
+  era: string | null;
+  region: string | null;
+  gender: string | null;
+  occupation: string | null;
+  major_achievement: string | null;
+  historical_significance: string | null;
+  famous_quote: string | null;
+  personality_trait: string | null;
+  fun_fact: string | null;
+  modern_comparison: string | null;
+  if_alive_today: string | null;
+  recommended_for: string | null;
+  trivia_level: number | null;
+  catchphrase: string | null;
+  description: string | null;
+  image_url: string | null;
 }
 
 export interface Attribute {

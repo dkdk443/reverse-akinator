@@ -31,10 +31,24 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(100) NOT NULL,
     name_en VARCHAR(100),
-    description TEXT,
-    image_url VARCHAR(255),
     birth_year INTEGER,
-    death_year INTEGER
+    death_year INTEGER,
+    era VARCHAR(100),
+    region VARCHAR(100),
+    gender VARCHAR(20),
+    occupation VARCHAR(200),
+    major_achievement TEXT,
+    historical_significance TEXT,
+    famous_quote TEXT,
+    personality_trait TEXT,
+    fun_fact TEXT,
+    modern_comparison TEXT,
+    if_alive_today TEXT,
+    recommended_for TEXT,
+    trivia_level INTEGER,
+    catchphrase TEXT,
+    description TEXT,
+    image_url VARCHAR(255)
   )
 `);
 
