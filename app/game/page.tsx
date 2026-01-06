@@ -164,11 +164,23 @@ export default function GamePage() {
     e.preventDefault();
     if (!aiQuestion.trim() || isAiThinking || !targetPerson || aiRemaining === 0) return;
 
+    // セッションIDチェック
+    if (!sessionId) {
+      setChatHistory(prev => [...prev, {
+        type: 'ai',
+        text: 'セッションが初期化されていません。ページを再読み込みしてください。',
+        highlight: 'neutral'
+      }]);
+      return;
+    }
+
     const questionText = aiQuestion;
     setAiQuestion('');
     setChatHistory(prev => [...prev, { type: 'user', text: questionText }]);
     setQuestionCount(prev => prev + 1);
     setIsAiThinking(true);
+
+    console.log('AI Question Request:', { sessionId, targetPersonId: targetPerson.id, question: questionText });
 
     try {
       const response = await fetch('/api/ai/question', {

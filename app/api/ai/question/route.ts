@@ -9,8 +9,15 @@ export async function POST(request: NextRequest) {
 
     // バリデーション
     if (!sessionId || !targetPersonId || !question) {
+      const missing = [];
+      if (!sessionId) missing.push('sessionId');
+      if (!targetPersonId) missing.push('targetPersonId');
+      if (!question) missing.push('question');
+
+      console.error('AI question validation failed:', { sessionId, targetPersonId, question, missing });
+
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: `Missing required fields: ${missing.join(', ')}` },
         { status: 400 }
       );
     }
