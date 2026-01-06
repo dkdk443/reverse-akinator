@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
 
     // Google Generative AI SDKを初期化
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
     const systemPrompt = `あなたは「アキネーター」のような推理ゲームのAIゲームマスターです。
 正解の歴史上の人物は「${targetPerson.name} (${targetPerson.name_en})」です。
