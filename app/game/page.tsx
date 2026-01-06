@@ -164,6 +164,7 @@ export default function GamePage() {
   const handleAskHint = async () => {
     if (!targetPerson || !sessionId || hintRemaining === 0 || isAiThinking) return;
 
+    const hintNumber = 4 - hintRemaining; // 1, 2, or 3
     setHintRemaining(prev => prev - 1);
     setChatHistory(prev => [...prev, { type: 'user', text: 'ヒントをください', highlight: 'neutral' }]);
     setIsAiThinking(true);
@@ -176,6 +177,7 @@ export default function GamePage() {
           sessionId,
           targetPersonId: targetPerson.id,
           targetPersonName: targetPerson.name,
+          hintNumber,
         }),
       });
 

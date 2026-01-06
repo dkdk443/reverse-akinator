@@ -5,7 +5,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { sessionId, targetPersonId, targetPersonName } = body;
+    const { sessionId, targetPersonId, targetPersonName, hintNumber } = body;
 
     // バリデーション
     if (!targetPersonId || !targetPersonName) {
@@ -37,20 +37,51 @@ export async function POST(request: NextRequest) {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
+    // ヒント番号に基づいて難易度を調整
+    const currentHintNumber = hintNumber || 1;
+    let difficultyInstruction = '';
+
+    if (currentHintNumber === 1) {
+      // 1回目：難しい（抽象的・間接的）
+      difficultyInstruction = `
+難易度：難しい
+- 非常に抽象的で間接的なヒント
+- 時代背景や雰囲気を示唆する程度
+- 具体的な職業や業績は避ける
+- 例：「この人物が生きた時代は、世界が大きく動いた時代でした」
+- 例：「この人物の影響は、現代にも色濃く残っています」`;
+    } else if (currentHintNumber === 2) {
+      // 2回目：中程度（やや具体的）
+      difficultyInstruction = `
+難易度：中程度
+- やや具体的だが、まだ推理が必要なヒント
+- 職業分野や活動領域をほのめかす
+- 具体的な作品名や出来事は避ける
+- 例：「この人物は、日本の文化に大きな影響を与えた芸術家です」
+- 例：「この人物の決断が、歴史の流れを変えました」`;
+    } else {
+      // 3回目：簡単（具体的・直接的）
+      difficultyInstruction = `
+難易度：簡単
+- 具体的で直接的なヒント
+- 代表的な業績や作品、出来事を示す
+- 人物を特定しやすい情報を含める
+- 例：「この人物は、明治維新で重要な役割を果たした政治家です」
+- 例：「この人物の代表作は、日本文学の最高峰として知られています」`;
+    }
+
     const prompt = `あなたは「アキネーター」のような推理ゲームのAIゲームマスターです。
 正解の歴史上の人物は「${targetPersonName}」です。
 
-プレイヤーがこの人物を特定しやすくなるように、面白くて有益なヒントを1つ出してください。
+これは${currentHintNumber}回目のヒントです。
+プレイヤーがこの人物を特定できるように、以下の難易度に従ってヒントを1つ出してください。
 
-ヒントの要件：
-- 正解の人物名を明かさないこと
-- 直接的すぎず、でも推理の助けになるヒント
-- 歴史的事実や特徴を活用
+${difficultyInstruction}
+
+共通要件：
+- 正解の人物名を絶対に明かさないこと
 - 1〜2文で簡潔に
 - 面白く、魅力的に
-
-例：「この人物が活躍した時代は、日本が大きく変わろうとしていた激動の時代でした」
-例：「この人物の作品は、今でも多くの人に愛され続けています」
 
 ヒントのみを返してください（前置きや説明は不要）。`;
 
