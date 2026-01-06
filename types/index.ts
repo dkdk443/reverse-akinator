@@ -5,6 +5,8 @@ export interface Person {
   name_en: string | null;
   description: string | null;
   image_url: string | null;
+  birth_year: number | null;
+  death_year: number | null;
 }
 
 export interface Attribute {

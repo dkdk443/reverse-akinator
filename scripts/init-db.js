@@ -32,7 +32,9 @@ db.exec(`
     name VARCHAR(100) NOT NULL,
     name_en VARCHAR(100),
     description TEXT,
-    image_url VARCHAR(255)
+    image_url VARCHAR(255),
+    birth_year INTEGER,
+    death_year INTEGER
   )
 `);
 

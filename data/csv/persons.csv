@@ -1,0 +1,31 @@
+id,name,name_en,description,image_url,birth_year,death_year
+1,織田信長,Oda Nobunaga,戦国時代の武将,,1534,1582
+2,豊臣秀吉,Toyotomi Hideyoshi,戦国時代の武将,,1537,1598
+3,徳川家康,Tokugawa Ieyasu,江戸幕府初代将軍,,1543,1616
+4,坂本龍馬,Sakamoto Ryoma,幕末の志士,,1836,1867
+5,西郷隆盛,Saigo Takamori,明治時代の軍人,,1828,1877
+6,夏目漱石,Natsume Soseki,近代の作家,,1867,1916
+7,樋口一葉,Higuchi Ichiyo,近代の作家・女性,,1872,1896
+8,野口英世,Noguchi Hideyo,近代の科学者,,1876,1928
+9,紫式部,Murasaki Shikibu,平安時代の作家・女性,,973,1014
+10,聖徳太子,Prince Shotoku,飛鳥時代の政治家,,574,622
+11,源義経,Minamoto no Yoshitsune,平安時代末期の武将,,1159,1189
+12,葛飾北斎,Katsushika Hokusai,江戸時代の芸術家,,1760,1849
+13,伊藤博文,Ito Hirobumi,明治時代の政治家,,1841,1909
+14,福沢諭吉,Fukuzawa Yukichi,明治時代の思想家,,1835,1901
+15,手塚治虫,Tezuka Osamu,現代の漫画家,,1928,1989
+16,ナポレオン・ボナパルト,Napoleon Bonaparte,近代の軍人・フランス,,1769,1821
+17,クレオパトラ7世,Cleopatra VII,古代の女王・エジプト,,-69,-30
+18,レオナルド・ダ・ヴィンチ,Leonardo da Vinci,ルネサンスの芸術家・イタリア,,1452,1519
+19,ヴォルフガング・アマデウス・モーツァルト,Wolfgang Amadeus Mozart,近世の音楽家・オーストリア,,1756,1791
+20,アルベルト・アインシュタイン,Albert Einstein,現代の科学者・ドイツ系,,1879,1955
+21,マリー・キュリー,Marie Curie,近代の科学者・女性・ポーランド,,1867,1934
+22,マハトマ・ガンディー,Mahatma Gandhi,現代の政治家・インド,,1869,1948
+23,マザー・テレサ,Mother Teresa,現代の宗教家・女性,,1910,1997
+24,ウィリアム・シェイクスピア,William Shakespeare,近世の作家・イギリス,,1564,1616
+25,ルートヴィヒ・ヴァン・ベートーヴェン,Ludwig van Beethoven,近代の音楽家・ドイツ,,1770,1827
+26,パブロ・ピカソ,Pablo Picasso,現代の芸術家・スペイン,,1881,1973
+27,チャールズ・チャップリン,Charlie Chaplin,現代の俳優・イギリス,,1889,1977
+28,エイブラハム・リンカーン,Abraham Lincoln,近代の政治家・アメリカ,,1809,1865
+29,ジョン・F・ケネディ,John F. Kennedy,現代の政治家・アメリカ,,1917,1963
+30,チンギス・ハン,Genghis Khan,中世の軍人・モンゴル,,1162,1227

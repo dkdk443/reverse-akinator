@@ -13,132 +13,216 @@ import {
   ChevronRight,
   HelpCircle,
   BrainCircuit,
-  Lightbulb,
-  Cake
+  Cake,
+  Send
 } from 'lucide-react';
+import type { Person, Attribute, PersonAttribute } from '@/types';
 
 const CATEGORIES = [
+  { id: 'ai', name: 'AI質問', icon: Sparkles, color: 'text-indigo-600', bg: 'bg-indigo-100' },
   { id: 'era', name: '年代', icon: History, color: 'text-amber-600', bg: 'bg-amber-100' },
   { id: 'region', name: '地域', icon: Globe, color: 'text-blue-600', bg: 'bg-blue-100' },
   { id: 'gender', name: '性別', icon: User, color: 'text-pink-600', bg: 'bg-pink-100' },
   { id: 'age', name: '年齢', icon: Cake, color: 'text-orange-600', bg: 'bg-orange-100' },
   { id: 'occupation', name: '職業', icon: Briefcase, color: 'text-emerald-600', bg: 'bg-emerald-100' },
-  { id: 'trait', name: '特徴', icon: Sparkles, color: 'text-purple-600', bg: 'bg-purple-100' },
-];
-
-// 仮の質問データ（後でAPIから取得）
-const TEMP_QUESTIONS: Record<string, Array<{ id: number; text: string }>> = {
-  era: [
-    { id: 1, text: '古代の人ですか？' },
-    { id: 2, text: '中世の人ですか？' },
-    { id: 3, text: '近世の人ですか？' },
-    { id: 4, text: '近代の人ですか？' },
-    { id: 5, text: '現代の人ですか？' },
-  ],
-  region: [
-    { id: 11, text: '日本人ですか？' },
-    { id: 12, text: 'ヨーロッパの人ですか？' },
-    { id: 13, text: 'アメリカの人ですか？' },
-    { id: 14, text: 'アジア（日本以外）の人ですか？' },
-  ],
-  gender: [
-    { id: 21, text: '男性ですか？' },
-    { id: 22, text: '女性ですか？' },
-  ],
-  age: [
-    { id: 31, text: '若くして亡くなりましたか（50歳未満）？' },
-    { id: 32, text: '長生きしましたか（80歳以上）？' },
-  ],
-  occupation: [
-    { id: 41, text: '政治家ですか？' },
-    { id: 42, text: '軍人・武将ですか？' },
-    { id: 43, text: '芸術家ですか？' },
-    { id: 44, text: '科学者ですか？' },
-    { id: 45, text: '作家ですか？' },
-    { id: 46, text: '音楽家ですか？' },
-    { id: 47, text: '思想家・宗教家ですか？' },
-  ],
-  trait: [
-    { id: 51, text: '戦いに関わりましたか？' },
-    { id: 52, text: '革命を起こしましたか？' },
-    { id: 53, text: '芸術作品を残しましたか？' },
-    { id: 54, text: 'ノーベル賞を受賞しましたか？' },
-  ],
-};
-
-// 仮の人物リスト（後でAPIから取得）
-const TEMP_PERSONS = [
-  { id: 1, name: '織田信長' },
-  { id: 2, name: '豊臣秀吉' },
-  { id: 3, name: '徳川家康' },
-  { id: 4, name: '坂本龍馬' },
-  { id: 6, name: '夏目漱石' },
+  { id: 'trait', name: '特徴', icon: BrainCircuit, color: 'text-purple-600', bg: 'bg-purple-100' },
 ];
 
 export default function GamePage() {
+  // データ管理
+  const [persons, setPersons] = useState<Person[]>([]);
+  const [attributes, setAttributes] = useState<Attribute[]>([]);
+  const [personAttributes, setPersonAttributes] = useState<PersonAttribute[]>([]);
+  const [sessionId, setSessionId] = useState<string>('');
+  const [targetPerson, setTargetPerson] = useState<Person | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // ゲーム状態
   const [gameState, setGameState] = useState<'playing' | 'guessing' | 'result-win' | 'result-lose'>('playing');
   const [chatHistory, setChatHistory] = useState<Array<{ type: 'ai' | 'user'; text: string; highlight?: 'yes' | 'no' | 'neutral' }>>([
     { type: 'ai', text: '有名な歴史上の人物を思い浮かべました。質問をして、誰か当ててください。' }
   ]);
-  const [selectedCategory, setSelectedCategory] = useState('era');
+  const [selectedCategory, setSelectedCategory] = useState('ai');
   const [guessId, setGuessId] = useState('');
   const [questionCount, setQuestionCount] = useState(0);
+
+  // 年代質問
   const [customYear, setCustomYear] = useState('');
   const [yearDirection, setYearDirection] = useState<'before' | 'after'>('before');
+
+  // AI質問
+  const [aiQuestion, setAiQuestion] = useState('');
+  const [aiRemaining, setAiRemaining] = useState(5);
+  const [isAiThinking, setIsAiThinking] = useState(false);
+
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  // 初期データ取得
+  useEffect(() => {
+    async function initGame() {
+      try {
+        // データ取得
+        const dataRes = await fetch('/api/data/init');
+        const data = await dataRes.json();
+        setPersons(data.persons);
+        setAttributes(data.attributes);
+        setPersonAttributes(data.personAttributes);
+
+        // セッション開始
+        const sessionRes = await fetch('/api/session/start', { method: 'POST' });
+        const session = await sessionRes.json();
+        setSessionId(session.sessionId);
+        setAiRemaining(session.aiQuestionLimit);
+
+        // ランダムに人物選択
+        const randomPerson = data.persons[Math.floor(Math.random() * data.persons.length)];
+        setTargetPerson(randomPerson);
+
+        console.log('Target (Debug):', randomPerson.name);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Failed to init game:', error);
+      }
+    }
+
+    initGame();
+  }, []);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatHistory]);
 
-  const handleAskQuestion = (question: { id: number; text: string }) => {
-    setChatHistory(prev => [...prev, { type: 'user', text: question.text }]);
+  // カテゴリ別の質問を取得
+  const getQuestionsByCategory = (category: string) => {
+    return attributes.filter(attr => attr.category === category);
+  };
+
+  // 通常質問の回答ロジック
+  const handleAskQuestion = (attribute: Attribute) => {
+    if (!targetPerson) return;
+
+    setChatHistory(prev => [...prev, { type: 'user', text: attribute.question }]);
     setQuestionCount(prev => prev + 1);
 
     setTimeout(() => {
-      // 仮の回答（後でAPIから取得）
-      const answers = ['はい', 'いいえ', 'どちらとも言えない'];
-      const answerText = answers[Math.floor(Math.random() * answers.length)];
-      const highlight = answerText === 'はい' ? 'yes' : answerText === 'いいえ' ? 'no' : 'neutral';
+      // クライアント側で回答判定
+      const personAttr = personAttributes.find(
+        pa => pa.person_id === targetPerson.id && pa.attribute_id === attribute.id
+      );
+
+      const answer = personAttr?.value ? 'はい' : 'いいえ';
+      const highlight = personAttr?.value ? 'yes' : 'no';
 
       setChatHistory(prev => [...prev, {
         type: 'ai',
-        text: answerText,
-        highlight: highlight as 'yes' | 'no' | 'neutral'
+        text: answer,
+        highlight: highlight as 'yes' | 'no'
       }]);
     }, 600);
   };
 
+  // 年代質問
   const handleAskYearQuestion = () => {
-    if (!customYear || isNaN(parseInt(customYear))) return;
+    if (!customYear || isNaN(parseInt(customYear)) || !targetPerson) return;
 
+    const year = parseInt(customYear);
     const questionText = `${customYear}年より${yearDirection === 'before' ? '前' : '後'}の人ですか？`;
     setChatHistory(prev => [...prev, { type: 'user', text: questionText }]);
     setQuestionCount(prev => prev + 1);
     setCustomYear('');
 
     setTimeout(() => {
-      // 仮の回答（後でAPIから取得）
-      const answers = ['はい', 'いいえ', 'どちらとも言えない'];
-      const answerText = answers[Math.floor(Math.random() * answers.length)];
-      const highlight = answerText === 'はい' ? 'yes' : answerText === 'いいえ' ? 'no' : 'neutral';
+      // 生まれ年と死亡年を使って判定
+      const birthYear = targetPerson.birth_year;
+      const deathYear = targetPerson.death_year;
+
+      let isYes = false;
+
+      if (birthYear !== null && deathYear !== null) {
+        if (yearDirection === 'before') {
+          // 「より前」= 死亡年がその年より前
+          isYes = deathYear < year;
+        } else {
+          // 「より後」= 生まれ年がその年より後
+          isYes = birthYear > year;
+        }
+      }
+
+      const answerText = isYes ? 'はい' : 'いいえ';
+      const highlight = isYes ? 'yes' : 'no';
 
       setChatHistory(prev => [...prev, {
         type: 'ai',
         text: answerText,
-        highlight: highlight as 'yes' | 'no' | 'neutral'
+        highlight: highlight as 'yes' | 'no'
       }]);
     }, 600);
   };
 
-  const handleGuess = () => {
-    if (!guessId) return;
+  // AI質問
+  const handleAskAIQuestion = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!aiQuestion.trim() || isAiThinking || !targetPerson || aiRemaining === 0) return;
 
-    const guessedPerson = TEMP_PERSONS.find(p => p.id === parseInt(guessId));
+    const questionText = aiQuestion;
+    setAiQuestion('');
+    setChatHistory(prev => [...prev, { type: 'user', text: questionText }]);
+    setQuestionCount(prev => prev + 1);
+    setIsAiThinking(true);
+
+    try {
+      const response = await fetch('/api/ai/question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          targetPersonId: targetPerson.id,
+          question: questionText,
+        }),
+      });
+
+      if (response.status === 429) {
+        setChatHistory(prev => [...prev, {
+          type: 'ai',
+          text: 'AI質問の回数制限に達しました（最大5回）',
+          highlight: 'neutral'
+        }]);
+        setIsAiThinking(false);
+        return;
+      }
+
+      const data = await response.json();
+      setAiRemaining(data.remainingCount);
+
+      const highlight = data.answer.includes('はい') ? 'yes'
+        : data.answer.includes('いいえ') ? 'no'
+        : 'neutral';
+
+      setChatHistory(prev => [...prev, {
+        type: 'ai',
+        text: data.answer,
+        highlight: highlight as 'yes' | 'no' | 'neutral'
+      }]);
+    } catch (error) {
+      console.error('AI question failed:', error);
+      setChatHistory(prev => [...prev, {
+        type: 'ai',
+        text: '通信エラーが発生しました',
+        highlight: 'neutral'
+      }]);
+    } finally {
+      setIsAiThinking(false);
+    }
+  };
+
+  // 推測判定
+  const handleGuess = () => {
+    if (!guessId || !targetPerson) return;
+
+    const guessedPerson = persons.find(p => p.id === parseInt(guessId));
     if (!guessedPerson) return;
 
-    // 仮の判定（後でAPIで正解判定）
-    const isCorrect = Math.random() > 0.5;
+    const isCorrect = guessedPerson.id === targetPerson.id;
 
     if (isCorrect) {
       setChatHistory(prev => [...prev,
@@ -149,7 +233,7 @@ export default function GamePage() {
     } else {
       setChatHistory(prev => [...prev,
         { type: 'user', text: `${guessedPerson.name} ですか？` },
-        { type: 'ai', text: `残念、違います。正解は織田信長でした。` }
+        { type: 'ai', text: `残念、違います。正解は ${targetPerson.name} でした。` }
       ]);
       setGameState('result-lose');
     }
@@ -177,6 +261,17 @@ export default function GamePage() {
     );
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-slate-50">
+        <div className="text-center">
+          <BrainCircuit size={48} className="animate-pulse text-indigo-600 mx-auto mb-4" />
+          <p className="text-slate-600">ゲームを準備中...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-screen bg-slate-50 font-sans text-slate-800 overflow-hidden">
       {/* ヘッダー */}
@@ -192,6 +287,7 @@ export default function GamePage() {
         </div>
         {gameState === 'playing' && (
           <div className="flex items-center gap-2 md:gap-4 text-sm font-medium text-slate-600">
+            <span className="bg-amber-100 text-amber-700 px-3 py-2 rounded-full text-xs">AI残: {aiRemaining}</span>
             <span className="bg-slate-100 px-3 py-2 rounded-full text-xs md:text-sm">Q: {questionCount}</span>
             <button
               onClick={() => setGameState('guessing')}
@@ -207,7 +303,7 @@ export default function GamePage() {
       {/* メインエリア */}
       <main className="flex-1 overflow-hidden relative flex flex-col">
         {/* 結果画面 */}
-        {(gameState === 'result-win' || gameState === 'result-lose') && (
+        {(gameState === 'result-win' || gameState === 'result-lose') && targetPerson && (
           <div className="absolute inset-0 z-30 flex flex-col items-center justify-center p-6 bg-slate-900/90 backdrop-blur-sm text-white text-center animate-in zoom-in duration-300">
             <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-6 ${gameState === 'result-win' ? 'bg-green-500' : 'bg-red-500'}`}>
               {gameState === 'result-win' ? <Sparkles size={48} /> : <XCircle size={48} />}
@@ -218,9 +314,14 @@ export default function GamePage() {
             <p className="text-slate-300 mb-8 text-lg">
               {gameState === 'result-win'
                 ? `${questionCount}回の質問で正解しました！`
-                : '正解は織田信長でした。'
+                : `正解は ${targetPerson.name} でした。`
               }
             </p>
+            <div className="bg-white/10 p-6 rounded-xl mb-8 w-full max-w-sm backdrop-blur-md border border-white/20">
+              <p className="text-sm text-slate-400 uppercase tracking-wider mb-2">Target Person</p>
+              <h3 className="text-2xl font-bold">{targetPerson.name}</h3>
+              <p className="text-slate-300 text-sm mt-1">{targetPerson.name_en}</p>
+            </div>
             <button
               onClick={() => window.location.href = '/'}
               className="bg-white text-indigo-900 py-3 px-8 rounded-full font-bold text-lg shadow-lg hover:bg-indigo-50 transition-all flex items-center gap-2"
@@ -237,6 +338,18 @@ export default function GamePage() {
             {chatHistory.map((item, index) => (
               <ChatBubble key={index} item={item} />
             ))}
+            {isAiThinking && (
+              <div className="flex w-full mb-4 justify-start">
+                <div className="flex items-center gap-2 bg-white px-4 py-3 rounded-2xl shadow-sm border border-gray-100">
+                  <div className="flex gap-1">
+                    <span className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></span>
+                    <span className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
+                    <span className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></span>
+                  </div>
+                  <span className="text-xs text-gray-500">AIが思考中...</span>
+                </div>
+              </div>
+            )}
             <div ref={chatEndRef} />
           </div>
         </div>
@@ -260,7 +373,7 @@ export default function GamePage() {
                   onChange={(e) => setGuessId(e.target.value)}
                 >
                   <option value="">人物を選択...</option>
-                  {TEMP_PERSONS.map(p => (
+                  {persons.map(p => (
                     <option key={p.id} value={p.id}>{p.name}</option>
                   ))}
                 </select>
@@ -301,50 +414,89 @@ export default function GamePage() {
 
               {/* 質問リスト */}
               <div className="p-2 h-48 md:h-52 bg-slate-50/50 flex flex-col overflow-y-auto">
-                {/* 年代カテゴリの場合：年入力フォームを表示 */}
+                {/* AI自由質問フォーム */}
+                {selectedCategory === 'ai' && (
+                  <div className="h-full flex flex-col items-center justify-center p-4">
+                    <p className="text-sm text-slate-600 mb-3 font-medium flex items-center gap-2">
+                      <Sparkles size={18} className="text-indigo-500" />
+                      AIに自由に質問できます
+                    </p>
+                    <p className="text-xs text-slate-500 mb-4">残り: {aiRemaining}/5回</p>
+                    <form onSubmit={handleAskAIQuestion} className="flex gap-2 w-full max-w-md">
+                      <input
+                        type="text"
+                        value={aiQuestion}
+                        onChange={(e) => setAiQuestion(e.target.value)}
+                        placeholder="例: ちょんまげをしていましたか？"
+                        className="flex-1 p-3 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-400 outline-none"
+                        disabled={aiRemaining === 0 || isAiThinking}
+                      />
+                      <button
+                        type="submit"
+                        disabled={!aiQuestion.trim() || aiRemaining === 0 || isAiThinking}
+                        className="px-4 py-3 bg-indigo-600 disabled:bg-gray-300 text-white rounded-lg text-sm font-bold hover:bg-indigo-700 transition-colors flex items-center gap-1"
+                      >
+                        <Send size={16} />
+                        質問
+                      </button>
+                    </form>
+                  </div>
+                )}
+
+                {/* 年代カテゴリ：年入力フォーム */}
                 {selectedCategory === 'era' && (
-                  <div className="p-3 mb-2 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg">
-                    <p className="text-xs text-amber-700 mb-2 font-medium">年を指定して質問</p>
-                    <div className="flex gap-2">
+                  <div className="h-full flex flex-col items-center justify-center p-4">
+                    <p className="text-sm text-slate-600 mb-4 font-medium">西暦を入力して絞り込み</p>
+                    <div className="flex items-center gap-2 w-full max-w-xs mb-4">
                       <input
                         type="number"
                         value={customYear}
                         onChange={(e) => setCustomYear(e.target.value)}
-                        placeholder="1600"
-                        className="w-24 p-2 border border-amber-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-400 outline-none"
+                        placeholder="例: 1600"
+                        className="flex-1 p-3 border border-slate-300 rounded-lg text-center text-base focus:ring-2 focus:ring-amber-400 outline-none"
                       />
-                      <span className="flex items-center text-sm text-gray-600">年より</span>
-                      <select
-                        value={yearDirection}
-                        onChange={(e) => setYearDirection(e.target.value as 'before' | 'after')}
-                        className="p-2 border border-amber-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-400 outline-none"
-                      >
-                        <option value="before">前</option>
-                        <option value="after">後</option>
-                      </select>
+                      <span className="text-sm font-medium text-slate-600">年</span>
+                    </div>
+                    <div className="flex gap-3 w-full max-w-xs">
                       <button
-                        onClick={handleAskYearQuestion}
+                        onClick={() => {
+                          setYearDirection('before');
+                          handleAskYearQuestion();
+                        }}
                         disabled={!customYear}
-                        className="px-4 py-2 bg-amber-600 disabled:bg-gray-300 text-white rounded-lg text-sm font-medium hover:bg-amber-700 transition-colors"
+                        className="flex-1 bg-blue-100 text-blue-700 py-3 rounded-lg hover:bg-blue-200 disabled:bg-gray-200 disabled:text-gray-400 text-sm font-bold transition-colors"
                       >
-                        質問
+                        より前
+                      </button>
+                      <button
+                        onClick={() => {
+                          setYearDirection('after');
+                          handleAskYearQuestion();
+                        }}
+                        disabled={!customYear}
+                        className="flex-1 bg-red-100 text-red-700 py-3 rounded-lg hover:bg-red-200 disabled:bg-gray-200 disabled:text-gray-400 text-sm font-bold transition-colors"
+                      >
+                        より後
                       </button>
                     </div>
                   </div>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-2">
-                  {TEMP_QUESTIONS[selectedCategory]?.map(q => (
-                    <button
-                      key={q.id}
-                      onClick={() => handleAskQuestion(q)}
-                      className="text-left px-4 py-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-300 hover:shadow-md hover:text-indigo-700 transition-all text-sm md:text-base group flex items-center justify-between active:scale-[0.99]"
-                    >
-                      <span>{q.text}</span>
-                      <ChevronRight size={16} className="text-slate-300 group-hover:text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </button>
-                  ))}
-                </div>
+                {/* プリセット質問リスト */}
+                {selectedCategory !== 'ai' && selectedCategory !== 'era' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-2">
+                    {getQuestionsByCategory(selectedCategory).map(q => (
+                      <button
+                        key={q.id}
+                        onClick={() => handleAskQuestion(q)}
+                        className="text-left px-4 py-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-300 hover:shadow-md hover:text-indigo-700 transition-all text-sm md:text-base group flex items-center justify-between active:scale-[0.99]"
+                      >
+                        <span>{q.question}</span>
+                        <ChevronRight size={16} className="text-slate-300 group-hover:text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* モバイル用回答ボタン */}

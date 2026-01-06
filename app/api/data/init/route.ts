@@ -18,7 +18,7 @@ export async function GET() {
         personAttributes.push({
           person_id: attr.person_id,
           attribute_id: attr.attribute_id,
-          value: attr.value === true,
+          value: attr.value === 1,
         });
       });
     });
