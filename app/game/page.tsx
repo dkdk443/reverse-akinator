@@ -192,6 +192,18 @@ export default function GamePage() {
       }
 
       const data = await response.json();
+
+      // エラーレスポンスの処理
+      if (!response.ok || !data.answer) {
+        setChatHistory(prev => [...prev, {
+          type: 'ai',
+          text: data.error || 'AI質問の処理に失敗しました',
+          highlight: 'neutral'
+        }]);
+        setIsAiThinking(false);
+        return;
+      }
+
       setAiRemaining(data.remainingCount);
 
       const highlight = data.answer.includes('はい') ? 'yes'
