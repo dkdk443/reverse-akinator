@@ -84,10 +84,18 @@ export async function POST(request: NextRequest) {
     );
 
     if (!response.ok) {
-      throw new Error('Gemini API error');
+      const errorText = await response.text();
+      console.error('Gemini API error:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorText
+      });
+      throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
+    console.log('Gemini API response:', JSON.stringify(data, null, 2));
+
     const answer = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || 'エラーが発生しました';
 
     const remaining = getAiQuestionRemaining(sessionId);
@@ -99,8 +107,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('AI question error:', error);
+    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
     return NextResponse.json(
-      { error: 'Failed to process AI question' },
+      { error: error instanceof Error ? error.message : 'Failed to process AI question' },
       { status: 500 }
     );
   }
