@@ -54,6 +54,7 @@ export default function GamePage() {
   const [aiQuestion, setAiQuestion] = useState('');
   const [aiRemaining, setAiRemaining] = useState(5);
   const [isAiThinking, setIsAiThinking] = useState(false);
+  const [hintRemaining, setHintRemaining] = useState(3);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -157,6 +158,56 @@ export default function GamePage() {
         highlight: highlight as 'yes' | 'no'
       }]);
     }, 600);
+  };
+
+  // ヒント機能
+  const handleAskHint = async () => {
+    if (!targetPerson || !sessionId || hintRemaining === 0 || isAiThinking) return;
+
+    setHintRemaining(prev => prev - 1);
+    setChatHistory(prev => [...prev, { type: 'user', text: 'ヒントをください', highlight: 'neutral' }]);
+    setIsAiThinking(true);
+
+    try {
+      const response = await fetch('/api/ai/hint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          targetPersonId: targetPerson.id,
+          targetPersonName: targetPerson.name,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.hint) {
+        setChatHistory(prev => [...prev, {
+          type: 'ai',
+          text: data.error || 'ヒントの取得に失敗しました',
+          highlight: 'neutral'
+        }]);
+        setHintRemaining(prev => prev + 1); // エラー時は回数を戻す
+        setIsAiThinking(false);
+        return;
+      }
+
+      setChatHistory(prev => [...prev, {
+        type: 'ai',
+        text: `💡 ${data.hint}`,
+        highlight: 'neutral'
+      }]);
+    } catch (error) {
+      console.error('Hint request failed:', error);
+      setChatHistory(prev => [...prev, {
+        type: 'ai',
+        text: '通信エラーが発生しました',
+        highlight: 'neutral'
+      }]);
+      setHintRemaining(prev => prev + 1); // エラー時は回数を戻す
+    } finally {
+      setIsAiThinking(false);
+    }
   };
 
   // AI質問
@@ -311,8 +362,17 @@ export default function GamePage() {
         </div>
         {gameState === 'playing' && (
           <div className="flex items-center gap-2 md:gap-4 text-sm font-medium text-slate-600">
-            <span className="bg-amber-100 text-amber-700 px-3 py-2 rounded-full text-xs">AI残: {aiRemaining}</span>
-            <span className="bg-slate-100 px-3 py-2 rounded-full text-xs md:text-sm">Q: {questionCount}</span>
+            <button
+              onClick={handleAskHint}
+              disabled={hintRemaining === 0 || isAiThinking}
+              className="bg-amber-100 text-amber-700 px-2 py-1.5 rounded-full hover:bg-amber-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 text-xs"
+              title={hintRemaining === 0 ? 'ヒントを使い切りました' : `ヒントを表示 (残り${hintRemaining}回)`}
+            >
+              <Sparkles size={16} />
+              <span className="hidden sm:inline">{hintRemaining}</span>
+            </button>
+            <span className="bg-slate-100 px-2 py-1.5 rounded-full text-xs">AI:{aiRemaining}</span>
+            <span className="bg-slate-100 px-2 py-1.5 rounded-full text-xs">Q:{questionCount}</span>
             <button
               onClick={() => setGameState('guessing')}
               className="bg-indigo-600 text-white px-3 py-2 md:px-4 rounded-full hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-md hover:shadow-lg transform active:scale-95"
