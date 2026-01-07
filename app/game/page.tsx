@@ -385,9 +385,9 @@ export default function GamePage() {
         console.log('Share cancelled');
       }
     } else {
-      // フォールバック: Twitterシェア
-      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
-      window.open(twitterUrl, '_blank', 'width=600,height=400');
+      // フォールバック: X (Twitter) シェア
+      const xUrl = `https://x.com/intent/post?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+      window.open(xUrl, '_blank', 'width=600,height=400');
     }
   };
 
