@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const dataDir = path.join(__dirname, '..', 'data');
 const dbPath = path.join(dataDir, 'persons.db');
-const csvPath = path.join(dataDir, 'csv', 'persons_100_complete.csv');
+const csvPath = path.join(dataDir, 'csv', 'persons.csv');
 
 if (!fs.existsSync(dbPath)) {
   console.error('❌ データベースが見つかりません。先に npm run db:init を実行してください。');
