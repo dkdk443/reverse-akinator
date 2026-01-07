@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   History,
   Globe,
@@ -18,6 +19,8 @@ import {
 } from 'lucide-react';
 import type { Person, Attribute, PersonAttribute } from '@/types';
 
+type Difficulty = 'easy' | 'normal' | 'hard' | 'all';
+
 const CATEGORIES = [
   { id: 'ai', name: 'AI質問', icon: Sparkles, color: 'text-indigo-600', bg: 'bg-indigo-100' },
   { id: 'era', name: '年代', icon: History, color: 'text-amber-600', bg: 'bg-amber-100' },
@@ -28,7 +31,29 @@ const CATEGORIES = [
   { id: 'trait', name: '特徴', icon: BrainCircuit, color: 'text-purple-600', bg: 'bg-purple-100' },
 ];
 
+// 難易度別のフィルタリング関数
+function filterPersonsByDifficulty(persons: Person[], difficulty: Difficulty): Person[] {
+  if (difficulty === 'all') return persons;
+
+  return persons.filter(person => {
+    const triviaLevel = person.trivia_level ?? 0;
+    switch (difficulty) {
+      case 'easy':
+        return triviaLevel >= 85; // 超有名
+      case 'normal':
+        return triviaLevel >= 70 && triviaLevel < 85; // 中程度
+      case 'hard':
+        return triviaLevel < 70; // マニアック
+      default:
+        return true;
+    }
+  });
+}
+
 export default function GamePage() {
+  const searchParams = useSearchParams();
+  const difficulty = (searchParams.get('difficulty') as Difficulty) || 'normal';
+
   // データ管理
   const [persons, setPersons] = useState<Person[]>([]);
   const [attributes, setAttributes] = useState<Attribute[]>([]);
@@ -75,11 +100,20 @@ export default function GamePage() {
         setSessionId(session.sessionId);
         setAiRemaining(session.aiQuestionLimit);
 
+        // 難易度に基づいて人物をフィルタリング
+        const filteredPersons = filterPersonsByDifficulty(data.persons, difficulty);
+
+        if (filteredPersons.length === 0) {
+          console.error('No persons found for this difficulty');
+          setIsLoading(false);
+          return;
+        }
+
         // ランダムに人物選択
-        const randomPerson = data.persons[Math.floor(Math.random() * data.persons.length)];
+        const randomPerson = filteredPersons[Math.floor(Math.random() * filteredPersons.length)];
         setTargetPerson(randomPerson);
 
-        console.log('Target (Debug):', randomPerson.name);
+        console.log('Target (Debug):', randomPerson.name, '| Difficulty:', difficulty, '| Trivia Level:', randomPerson.trivia_level);
         setIsLoading(false);
       } catch (error) {
         console.error('Failed to init game:', error);
@@ -87,7 +121,7 @@ export default function GamePage() {
     }
 
     initGame();
-  }, []);
+  }, [difficulty]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -575,7 +609,7 @@ export default function GamePage() {
                   onChange={(e) => setGuessId(e.target.value)}
                 >
                   <option value="">人物を選択...</option>
-                  {persons.map(p => (
+                  {filterPersonsByDifficulty(persons, difficulty).map(p => (
                     <option key={p.id} value={p.id}>{p.name}</option>
                   ))}
                 </select>
