@@ -85,17 +85,53 @@ ${difficultyInstruction}
 
 ヒントのみを返してください（前置きや説明は不要）。`;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const hint = response.text().trim();
+    // 503エラー用のリトライロジック（最大3回、指数バックオフ）
+    const maxRetries = 3;
+    let lastError;
 
-    return NextResponse.json({
-      hint,
-      success: true,
-    });
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const hint = response.text().trim();
+
+        return NextResponse.json({
+          hint,
+          success: true,
+        });
+      } catch (error: any) {
+        lastError = error;
+
+        // 503エラーの場合のみリトライ
+        if (error?.message?.includes('503') || error?.message?.includes('overloaded')) {
+          console.log(`Attempt ${attempt}/${maxRetries} failed with 503 error. Retrying...`);
+
+          if (attempt < maxRetries) {
+            // 指数バックオフ: 1秒、2秒、4秒
+            const delayMs = Math.pow(2, attempt - 1) * 1000;
+            await new Promise(resolve => setTimeout(resolve, delayMs));
+            continue;
+          }
+        } else {
+          // 503以外のエラーはすぐにスロー
+          throw error;
+        }
+      }
+    }
+
+    // 全てのリトライが失敗した場合
+    throw lastError;
   } catch (error: any) {
     console.error('Hint generation error:', error);
     console.error('Error message:', error?.message);
+
+    // 503エラー（サーバー過負荷）
+    if (error?.message?.includes('503') || error?.message?.includes('overloaded')) {
+      return NextResponse.json(
+        { error: 'AIサービスが混雑しています。数秒後にもう一度お試しください。' },
+        { status: 503 }
+      );
+    }
 
     // レート制限エラー
     if (error?.message?.includes('429') || error?.message?.includes('quota')) {

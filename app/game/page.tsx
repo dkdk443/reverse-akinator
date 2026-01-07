@@ -40,7 +40,7 @@ export default function GamePage() {
   // ゲーム状態
   const [gameState, setGameState] = useState<'playing' | 'guessing' | 'result-win' | 'result-lose'>('playing');
   const [chatHistory, setChatHistory] = useState<Array<{ type: 'ai' | 'user'; text: string; highlight?: 'yes' | 'no' | 'neutral' }>>([
-    { type: 'ai', text: '有名な歴史上の人物を思い浮かべました。質問をして、誰か当ててください。' }
+    { type: 'ai', text: '私は誰でしょう？質問して当ててみてください！' }
   ]);
   const [selectedCategory, setSelectedCategory] = useState('ai');
   const [guessId, setGuessId] = useState('');
@@ -273,7 +273,7 @@ export default function GamePage() {
 
       const highlight = data.answer.includes('はい') ? 'yes'
         : data.answer.includes('いいえ') ? 'no'
-        : 'neutral';
+          : 'neutral';
 
       setChatHistory(prev => [...prev, {
         type: 'ai',
@@ -303,14 +303,14 @@ export default function GamePage() {
 
     if (isCorrect) {
       setChatHistory(prev => [...prev,
-        { type: 'user', text: `${guessedPerson.name} ですか？` },
-        { type: 'ai', text: '正解です！素晴らしい推理力ですね。' }
+      { type: 'user', text: `${guessedPerson.name} ですか？` },
+      { type: 'ai', text: '正解です！素晴らしい推理力ですね。' }
       ]);
       setGameState('result-win');
     } else {
       setChatHistory(prev => [...prev,
-        { type: 'user', text: `${guessedPerson.name} ですか？` },
-        { type: 'ai', text: `残念、違います。正解は ${targetPerson.name} でした。` }
+      { type: 'user', text: `${guessedPerson.name} ですか？` },
+      { type: 'ai', text: `残念、違います。正解は ${targetPerson.name} でした。` }
       ]);
       setGameState('result-lose');
     }
@@ -324,13 +324,12 @@ export default function GamePage() {
           <div className={`flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center mr-2 ml-2 ${isAi ? 'bg-indigo-600 text-white' : 'bg-gray-300'}`}>
             {isAi ? <BrainCircuit size={20} /> : <User size={20} />}
           </div>
-          <div className={`p-3 md:p-4 rounded-2xl shadow-sm leading-relaxed ${
-            isAi
-              ? item.highlight === 'yes' ? 'bg-green-50 border border-green-200 text-gray-800'
-                : item.highlight === 'no' ? 'bg-red-50 border border-red-200 text-gray-800'
-                  : 'bg-white border border-gray-100 text-gray-800'
-              : 'bg-indigo-600 text-white'
-          }`}>
+          <div className={`p-3 md:p-4 rounded-2xl shadow-sm leading-relaxed ${isAi
+            ? item.highlight === 'yes' ? 'bg-green-50 border border-green-200 text-gray-800'
+              : item.highlight === 'no' ? 'bg-red-50 border border-red-200 text-gray-800'
+                : 'bg-white border border-gray-100 text-gray-800'
+            : 'bg-indigo-600 text-white'
+            }`}>
             <p className="text-sm md:text-base whitespace-pre-wrap">{item.text}</p>
           </div>
         </div>
@@ -367,11 +366,12 @@ export default function GamePage() {
             <button
               onClick={handleAskHint}
               disabled={hintRemaining === 0 || isAiThinking}
-              className="bg-amber-100 text-amber-700 px-2 py-1.5 rounded-full hover:bg-amber-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 text-xs"
+              className="bg-amber-100 text-amber-700 px-3 py-2 rounded-full hover:bg-amber-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 text-xs md:text-sm shadow-sm hover:shadow-md"
               title={hintRemaining === 0 ? 'ヒントを使い切りました' : `ヒントを表示 (残り${hintRemaining}回)`}
             >
               <Sparkles size={16} />
-              <span className="hidden sm:inline">{hintRemaining}</span>
+              <span>ヒント</span>
+              <span className="bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded-full text-xs font-bold">{hintRemaining}</span>
             </button>
             <span className="bg-slate-100 px-2 py-1.5 rounded-full text-xs">AI:{aiRemaining}</span>
             <span className="bg-slate-100 px-2 py-1.5 rounded-full text-xs">Q:{questionCount}</span>
@@ -602,11 +602,10 @@ export default function GamePage() {
                   <button
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat.id)}
-                    className={`flex items-center flex-shrink-0 px-4 py-2 mx-1 rounded-full text-sm font-medium transition-all ${
-                      selectedCategory === cat.id
-                        ? `${cat.bg} ${cat.color} ring-2 ring-offset-1 shadow-sm`
-                        : 'text-slate-500 hover:bg-slate-50'
-                    }`}
+                    className={`flex items-center flex-shrink-0 px-4 py-2 mx-1 rounded-full text-sm font-medium transition-all ${selectedCategory === cat.id
+                      ? `${cat.bg} ${cat.color} ring-2 ring-offset-1 shadow-sm`
+                      : 'text-slate-500 hover:bg-slate-50'
+                      }`}
                   >
                     <cat.icon size={16} className="mr-2" />
                     {cat.name}
