@@ -16,7 +16,8 @@ import {
   BrainCircuit,
   Cake,
   Send,
-  Share2
+  Share2,
+  Image
 } from 'lucide-react';
 import type { Person, Attribute, PersonAttribute } from '@/types';
 
@@ -365,8 +366,11 @@ export default function GamePage() {
     if (!targetPerson) return;
 
     const difficultyLabel = DIFFICULTY_LABELS[difficulty];
-    const shareText = `私は「${targetPerson.name}」を当てました！🎯\n難易度: ${difficultyLabel}\n質問数: ${questionCount}回\n\nReverse Akinator - 歴史上の人物当てゲーム`;
-    const shareUrl = typeof window !== 'undefined' ? window.location.origin : '';
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+
+    // ハッシュタグ付きシェアテキスト
+    const shareText = `私は「${targetPerson.name}」を当てました！🎯\n\n難易度: ${difficultyLabel}\n質問数: ${questionCount}回\n\n#ReverseAkinator #歴史上の人物クイズ #推理ゲーム`;
+    const shareUrl = baseUrl;
 
     // Web Share API対応ブラウザの場合
     if (navigator.share) {
@@ -385,6 +389,17 @@ export default function GamePage() {
       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
       window.open(twitterUrl, '_blank', 'width=600,height=400');
     }
+  };
+
+  // OG画像をプレビュー表示
+  const handlePreviewOGImage = () => {
+    if (!targetPerson) return;
+
+    const difficultyLabel = DIFFICULTY_LABELS[difficulty];
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+    const ogImageUrl = `${baseUrl}/api/og?name=${encodeURIComponent(targetPerson.name)}&difficulty=${encodeURIComponent(difficultyLabel)}&questions=${questionCount}&result=win`;
+
+    window.open(ogImageUrl, '_blank');
   };
 
   const ChatBubble = ({ item }: { item: typeof chatHistory[0] }) => {
@@ -590,12 +605,21 @@ export default function GamePage() {
               <div className="p-4 bg-white border-t border-slate-200 shrink-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-20">
                 {/* 正解時のシェアボタン */}
                 {gameState === 'result-win' && (
-                  <button
-                    onClick={handleShare}
-                    className="w-full mb-3 py-3 rounded-xl bg-emerald-500 text-white font-bold text-sm hover:bg-emerald-600 shadow-lg hover:shadow-emerald-200 transition flex items-center justify-center gap-2 transform active:scale-95"
-                  >
-                    <Share2 size={16} /> 結果をシェア
-                  </button>
+                  <div className="mb-3 flex gap-3">
+                    <button
+                      onClick={handleShare}
+                      className="flex-[2] py-3 rounded-xl bg-emerald-500 text-white font-bold text-sm hover:bg-emerald-600 shadow-lg hover:shadow-emerald-200 transition flex items-center justify-center gap-2 transform active:scale-95"
+                    >
+                      <Share2 size={16} /> Twitterでシェア
+                    </button>
+                    <button
+                      onClick={handlePreviewOGImage}
+                      className="flex-1 py-3 rounded-xl border-2 border-emerald-500 text-emerald-700 font-bold text-sm hover:bg-emerald-50 transition flex items-center justify-center gap-2"
+                      title="シェア画像をプレビュー"
+                    >
+                      <Image size={16} /> 画像
+                    </button>
+                  </div>
                 )}
 
                 {/* 共通ボタン */}
