@@ -9,7 +9,13 @@ export interface Session {
 }
 
 // インメモリセッションストア
-const sessions = new Map<string, Session>();
+// ホットリロード時にもデータを保持するためにglobalに保存
+const globalForSession = global as typeof global & {
+  sessions?: Map<string, Session>;
+};
+
+const sessions = globalForSession.sessions ?? new Map<string, Session>();
+globalForSession.sessions = sessions;
 
 // セッションの有効期限（30分）
 const SESSION_DURATION = 30 * 60 * 1000;
