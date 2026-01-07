@@ -15,7 +15,8 @@ import {
   HelpCircle,
   BrainCircuit,
   Cake,
-  Send
+  Send,
+  Share2
 } from 'lucide-react';
 import type { Person, Attribute, PersonAttribute } from '@/types';
 
@@ -50,9 +51,18 @@ function filterPersonsByDifficulty(persons: Person[], difficulty: Difficulty): P
   });
 }
 
+// 難易度ラベルマップ
+const DIFFICULTY_LABELS = {
+  easy: 'やさしい',
+  normal: 'ふつう',
+  hard: 'むずかしい',
+  all: 'すべて',
+};
+
 export default function GamePage() {
   const searchParams = useSearchParams();
   const difficulty = (searchParams.get('difficulty') as Difficulty) || 'normal';
+  const gameId = searchParams.get('gameId') || '';
 
   // データ管理
   const [persons, setPersons] = useState<Person[]>([]);
@@ -121,7 +131,7 @@ export default function GamePage() {
     }
 
     initGame();
-  }, [difficulty]);
+  }, [difficulty, gameId]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -350,6 +360,33 @@ export default function GamePage() {
     }
   };
 
+  // SNSシェア機能
+  const handleShare = async () => {
+    if (!targetPerson) return;
+
+    const difficultyLabel = DIFFICULTY_LABELS[difficulty];
+    const shareText = `私は「${targetPerson.name}」を当てました！🎯\n難易度: ${difficultyLabel}\n質問数: ${questionCount}回\n\nReverse Akinator - 歴史上の人物当てゲーム`;
+    const shareUrl = typeof window !== 'undefined' ? window.location.origin : '';
+
+    // Web Share API対応ブラウザの場合
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Reverse Akinator',
+          text: shareText,
+          url: shareUrl,
+        });
+      } catch (error) {
+        // ユーザーがキャンセルした場合など
+        console.log('Share cancelled');
+      }
+    } else {
+      // フォールバック: Twitterシェア
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+      window.open(twitterUrl, '_blank', 'width=600,height=400');
+    }
+  };
+
   const ChatBubble = ({ item }: { item: typeof chatHistory[0] }) => {
     const isAi = item.type === 'ai';
     return (
@@ -550,19 +587,32 @@ export default function GamePage() {
               </div>
 
               {/* フッターアクション */}
-              <div className="p-4 bg-white border-t border-slate-200 flex gap-3 shrink-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-20">
-                <button
-                  onClick={() => window.open(`https://www.google.com/search?q=${encodeURIComponent(targetPerson.name)}`, '_blank')}
-                  className="flex-1 py-3 rounded-xl border-2 border-slate-200 text-slate-600 font-bold text-sm hover:bg-slate-50 hover:border-slate-300 transition flex items-center justify-center gap-2"
-                >
-                  <Globe size={16} /> 調べる
-                </button>
-                <button
-                  onClick={() => window.location.href = '/'}
-                  className="flex-[2] py-3 rounded-xl bg-indigo-600 text-white font-bold text-sm hover:bg-indigo-700 shadow-lg hover:shadow-indigo-200 transition flex items-center justify-center gap-2 transform active:scale-95"
-                >
-                  <RotateCcw size={16} /> もう一度遊ぶ
-                </button>
+              <div className="p-4 bg-white border-t border-slate-200 shrink-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-20">
+                {/* 正解時のシェアボタン */}
+                {gameState === 'result-win' && (
+                  <button
+                    onClick={handleShare}
+                    className="w-full mb-3 py-3 rounded-xl bg-emerald-500 text-white font-bold text-sm hover:bg-emerald-600 shadow-lg hover:shadow-emerald-200 transition flex items-center justify-center gap-2 transform active:scale-95"
+                  >
+                    <Share2 size={16} /> 結果をシェア
+                  </button>
+                )}
+
+                {/* 共通ボタン */}
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => window.open(`https://www.google.com/search?q=${encodeURIComponent(targetPerson.name)}`, '_blank')}
+                    className="flex-1 py-3 rounded-xl border-2 border-slate-200 text-slate-600 font-bold text-sm hover:bg-slate-50 hover:border-slate-300 transition flex items-center justify-center gap-2"
+                  >
+                    <Globe size={16} /> 調べる
+                  </button>
+                  <button
+                    onClick={() => window.location.href = '/'}
+                    className="flex-[2] py-3 rounded-xl bg-indigo-600 text-white font-bold text-sm hover:bg-indigo-700 shadow-lg hover:shadow-indigo-200 transition flex items-center justify-center gap-2 transform active:scale-95"
+                  >
+                    <RotateCcw size={16} /> もう一度遊ぶ
+                  </button>
+                </div>
               </div>
             </div>
           </div>

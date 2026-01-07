@@ -94,7 +94,7 @@ export default function Home() {
         </div>
 
         <div className="space-y-4 w-full max-w-xs">
-          <Link href={`/game?difficulty=${selectedDifficulty}`}>
+          <Link href={`/game?difficulty=${selectedDifficulty}&gameId=${Date.now()}`}>
             <button className="w-full bg-indigo-600 text-white py-4 px-8 rounded-xl font-bold text-lg shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-all flex items-center justify-center gap-2 transform active:scale-95">
               <Play size={24} fill="currentColor" />
               ゲームスタート
