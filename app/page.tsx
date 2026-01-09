@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Play, BrainCircuit, Sparkles, Star, Award, Flame } from 'lucide-react';
 
@@ -46,7 +46,13 @@ const DIFFICULTY_CONFIG = {
 };
 
 export default function Home() {
+  const router = useRouter();
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('normal');
+
+  const handleStartGame = () => {
+    const gameId = Date.now();
+    router.push(`/game?difficulty=${selectedDifficulty}&gameId=${gameId}`);
+  };
 
   return (
     <div className="flex flex-col h-screen bg-slate-50">
@@ -65,7 +71,7 @@ export default function Home() {
         {/* 難易度選択 */}
         <div className="w-full max-w-md mb-6">
           <p className="text-sm font-bold text-slate-800 mb-3">難易度を選択</p>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 mt-6 mb-6">
             {(Object.keys(DIFFICULTY_CONFIG) as Difficulty[]).map((difficulty) => {
               const config = DIFFICULTY_CONFIG[difficulty];
               const Icon = config.icon;
@@ -74,11 +80,10 @@ export default function Home() {
                 <button
                   key={difficulty}
                   onClick={() => setSelectedDifficulty(difficulty)}
-                  className={`p-4 rounded-xl border-2 transition-all transform active:scale-95 ${
-                    isSelected
-                      ? `${config.color} ${config.borderColor} text-white shadow-lg shadow-indigo-100 scale-105`
-                      : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:shadow-md'
-                  }`}
+                  className={`p-4 rounded-xl border-2 transition-all transform active:scale-95 ${isSelected
+                    ? `${config.color} ${config.borderColor} text-white shadow-lg shadow-indigo-100 scale-105`
+                    : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:shadow-md'
+                    }`}
                 >
                   <div className="flex items-center justify-center gap-2 mb-1">
                     <Icon size={20} />
@@ -94,12 +99,13 @@ export default function Home() {
         </div>
 
         <div className="space-y-4 w-full max-w-xs">
-          <Link href={`/game?difficulty=${selectedDifficulty}&gameId=${Date.now()}`}>
-            <button className="w-full bg-indigo-600 text-white py-4 px-8 rounded-xl font-bold text-lg shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-all flex items-center justify-center gap-2 transform active:scale-95">
-              <Play size={24} fill="currentColor" />
-              ゲームスタート
-            </button>
-          </Link>
+          <button
+            onClick={handleStartGame}
+            className="w-full bg-indigo-600 text-white py-4 px-8 rounded-xl font-bold text-lg shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-all flex items-center justify-center gap-2 transform active:scale-95"
+          >
+            <Play size={24} fill="currentColor" />
+            ゲームスタート
+          </button>
           <div className="flex justify-center gap-4 text-sm text-slate-400">
             <span className="flex items-center gap-1">
               <Sparkles size={12} className="text-indigo-400" />
