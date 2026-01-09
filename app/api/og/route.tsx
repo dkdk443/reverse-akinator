@@ -7,6 +7,8 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const personName = searchParams.get('name') || '???';
+    const personNameEn = searchParams.get('name_en') || '';
+    const catchphrase = searchParams.get('catchphrase') || '';
     const difficulty = searchParams.get('difficulty') || 'ふつう';
     const questionCount = searchParams.get('questions') || '0';
     const result = searchParams.get('result') || 'win';
@@ -96,6 +98,42 @@ export async function GET(request: NextRequest) {
               >
                 {personName}
               </div>
+
+              {/* English name */}
+              {personNameEn && (
+                <div
+                  style={{
+                    display: 'flex',
+                    fontSize: '20px',
+                    color: '#c7d2fe',
+                    fontWeight: 600,
+                    letterSpacing: '0.05em',
+                    marginBottom: '24px',
+                  }}
+                >
+                  {personNameEn}
+                </div>
+              )}
+
+              {/* Catchphrase */}
+              {catchphrase && (
+                <div
+                  style={{
+                    display: 'flex',
+                    backgroundColor: '#facc15',
+                    color: '#713f12',
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    padding: '8px 24px',
+                    borderRadius: '9999px',
+                    border: '2px solid #fde047',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                    transform: 'rotate(-1deg)',
+                  }}
+                >
+                  {catchphrase}
+                </div>
+              )}
             </div>
 
             {/* Content - Slate background */}

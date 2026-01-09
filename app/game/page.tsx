@@ -128,7 +128,21 @@ export default function GamePage() {
     if (gameState === 'result-win' && targetPerson) {
       const difficultyLabel = DIFFICULTY_LABELS[difficulty];
       const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-      const ogImageUrl = `${baseUrl}/api/og?name=${encodeURIComponent(targetPerson.name)}&difficulty=${encodeURIComponent(difficultyLabel)}&questions=${questionCount}&result=win`;
+      const params = new URLSearchParams({
+        name: targetPerson.name,
+        difficulty: difficultyLabel,
+        questions: questionCount.toString(),
+        result: 'win',
+      });
+
+      if (targetPerson.name_en) {
+        params.append('name_en', targetPerson.name_en);
+      }
+      if (targetPerson.catchphrase) {
+        params.append('catchphrase', targetPerson.catchphrase);
+      }
+
+      const ogImageUrl = `${baseUrl}/api/og?${params.toString()}`;
 
       fetch(ogImageUrl)
         .then(response => response.blob())
@@ -219,7 +233,21 @@ export default function GamePage() {
 
     const difficultyLabel = DIFFICULTY_LABELS[difficulty];
     const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-    const ogImageUrl = `${baseUrl}/api/og?name=${encodeURIComponent(targetPerson.name)}&difficulty=${encodeURIComponent(difficultyLabel)}&questions=${questionCount}&result=win`;
+    const params = new URLSearchParams({
+      name: targetPerson.name,
+      difficulty: difficultyLabel,
+      questions: questionCount.toString(),
+      result: 'win',
+    });
+
+    if (targetPerson.name_en) {
+      params.append('name_en', targetPerson.name_en);
+    }
+    if (targetPerson.catchphrase) {
+      params.append('catchphrase', targetPerson.catchphrase);
+    }
+
+    const ogImageUrl = `${baseUrl}/api/og?${params.toString()}`;
 
     window.open(ogImageUrl, '_blank');
   };
