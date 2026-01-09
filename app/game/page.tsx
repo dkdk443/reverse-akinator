@@ -91,6 +91,7 @@ export default function GamePage() {
   const [aiRemaining, setAiRemaining] = useState(5);
   const [isAiThinking, setIsAiThinking] = useState(false);
   const [hintRemaining, setHintRemaining] = useState(3);
+  const [shareImageBlob, setShareImageBlob] = useState<Blob | null>(null);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -137,6 +138,20 @@ export default function GamePage() {
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatHistory]);
+
+  // 結果画面で画像を事前取得
+  useEffect(() => {
+    if (gameState === 'result-win' && targetPerson) {
+      const difficultyLabel = DIFFICULTY_LABELS[difficulty];
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+      const ogImageUrl = `${baseUrl}/api/og?name=${encodeURIComponent(targetPerson.name)}&difficulty=${encodeURIComponent(difficultyLabel)}&questions=${questionCount}&result=win`;
+
+      fetch(ogImageUrl)
+        .then(response => response.blob())
+        .then(blob => setShareImageBlob(blob))
+        .catch(error => console.error('Failed to prefetch share image:', error));
+    }
+  }, [gameState, targetPerson, difficulty, questionCount]);
 
   // カテゴリ別の質問を取得
   const getQuestionsByCategory = (category: string) => {
@@ -372,20 +387,42 @@ export default function GamePage() {
     const shareText = `私は「${targetPerson.name}」を当てました！🎯\n\n難易度: ${difficultyLabel}\n質問数: ${questionCount}回\n\n#ReverseAkinator #歴史上の人物クイズ #推理ゲーム`;
     const shareUrl = baseUrl;
 
-    // Web Share API対応ブラウザの場合
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'Reverse Akinator',
-          text: shareText,
-          url: shareUrl,
-        });
-      } catch (error) {
-        // ユーザーがキャンセルした場合など
-        console.log('Share cancelled');
+    // Web Share API非対応の場合はフォールバック
+    if (!navigator.share) {
+      const xUrl = `https://x.com/intent/post?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+      window.open(xUrl, '_blank', 'width=600,height=400');
+      return;
+    }
+
+    try {
+      // 画像とテキストを同時にシェア
+      if (shareImageBlob && navigator.canShare) {
+        const file = new File([shareImageBlob], 'reverse-akinator-result.png', { type: 'image/png' });
+
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            text: shareText,
+            files: [file],
+          });
+          return;
+        }
       }
-    } else {
-      // フォールバック: X (Twitter) シェア
+
+      // 画像シェアが不可能な場合、テキストのみでシェア
+      await navigator.share({
+        title: 'Reverse Akinator',
+        text: shareText,
+        url: shareUrl,
+      });
+    } catch (error) {
+      // ユーザーがキャンセルした場合は何もしない
+      if (error instanceof Error && error.name === 'AbortError') {
+        console.log('Share cancelled by user');
+        return;
+      }
+
+      // その他のエラーはフォールバック
+      console.error('Share failed:', error);
       const xUrl = `https://x.com/intent/post?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
       window.open(xUrl, '_blank', 'width=600,height=400');
     }
