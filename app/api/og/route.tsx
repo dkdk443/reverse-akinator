@@ -18,147 +18,175 @@ export async function GET(request: NextRequest) {
             height: '100%',
             width: '100%',
             display: 'flex',
-            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#f8fafc',
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            position: 'relative',
+            backgroundColor: '#0f172a',
+            backgroundImage: 'radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.15) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.15) 0%, transparent 50%)',
           }}
         >
-          {/* Background pattern */}
-          <div
-            style={{
-              position: 'absolute',
-              display: 'flex',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              opacity: 0.1,
-              background: 'radial-gradient(circle at 25px 25px, white 2%, transparent 0%), radial-gradient(circle at 75px 75px, white 2%, transparent 0%)',
-              backgroundSize: '100px 100px',
-            }}
-          />
-
-          {/* Content */}
+          {/* Modal Card */}
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
+              width: '1000px',
               backgroundColor: 'white',
-              borderRadius: '32px',
-              padding: '60px 80px',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-              position: 'relative',
+              borderRadius: '24px',
+              overflow: 'hidden',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
             }}
           >
-            {/* Result badge */}
+            {/* Header - Indigo background like ResultModal */}
             <div
               style={{
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: result === 'win' ? '#10b981' : '#ef4444',
-                color: 'white',
-                padding: '12px 32px',
-                borderRadius: '9999px',
-                fontSize: '28px',
-                fontWeight: 'bold',
-                marginBottom: '24px',
+                backgroundColor: '#4f46e5',
+                padding: '48px 60px',
               }}
             >
-              {result === 'win' ? '🎯 正解！' : '❌ 不正解'}
-            </div>
-
-            {/* Person name */}
-            <div
-              style={{
-                display: 'flex',
-                fontSize: '80px',
-                fontWeight: 'black',
-                color: '#1e293b',
-                marginBottom: '16px',
-                textAlign: 'center',
-              }}
-            >
-              {personName}
-            </div>
-
-            {/* Stats */}
-            <div
-              style={{
-                display: 'flex',
-                gap: '40px',
-                marginTop: '32px',
-              }}
-            >
+              {/* Icon circle */}
               <div
                 style={{
                   display: 'flex',
-                  flexDirection: 'column',
                   alignItems: 'center',
-                  backgroundColor: '#eef2ff',
-                  padding: '20px 32px',
-                  borderRadius: '16px',
+                  justifyContent: 'center',
+                  width: '100px',
+                  height: '100px',
+                  backgroundColor: 'white',
+                  borderRadius: '9999px',
+                  color: '#4f46e5',
+                  fontSize: '60px',
+                  marginBottom: '16px',
+                  boxShadow: '0 0 0 6px rgba(165, 180, 252, 0.5)',
                 }}
               >
-                <div style={{ display: 'flex', fontSize: '24px', color: '#64748b', marginBottom: '8px' }}>
-                  難易度
-                </div>
-                <div style={{ display: 'flex', fontSize: '36px', fontWeight: 'bold', color: '#4f46e5' }}>
-                  {difficulty}
-                </div>
+                {result === 'win' ? '✨' : '❌'}
               </div>
 
+              {/* Result badge */}
               <div
                 style={{
                   display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  backgroundColor: '#eef2ff',
-                  padding: '20px 32px',
-                  borderRadius: '16px',
+                  fontSize: '18px',
+                  color: '#c7d2fe',
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  border: '2px solid rgba(165, 180, 252, 0.5)',
+                  padding: '4px 16px',
+                  borderRadius: '9999px',
+                  marginBottom: '12px',
                 }}
               >
-                <div style={{ display: 'flex', fontSize: '24px', color: '#64748b', marginBottom: '8px' }}>
-                  質問数
-                </div>
-                <div style={{ display: 'flex', fontSize: '36px', fontWeight: 'bold', color: '#4f46e5' }}>
-                  {questionCount}回
-                </div>
+                {result === 'win' ? '正解' : '不正解'}
+              </div>
+
+              {/* Person name */}
+              <div
+                style={{
+                  display: 'flex',
+                  fontSize: '72px',
+                  fontWeight: 900,
+                  color: 'white',
+                  marginBottom: '8px',
+                  letterSpacing: '-0.02em',
+                }}
+              >
+                {personName}
               </div>
             </div>
-          </div>
 
-          {/* Footer */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '16px',
-              marginTop: '48px',
-              color: 'white',
-              fontSize: '32px',
-              fontWeight: 'bold',
-            }}
-          >
+            {/* Content - Slate background */}
             <div
               style={{
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
-                width: '64px',
-                height: '64px',
-                backgroundColor: 'white',
-                borderRadius: '9999px',
+                backgroundColor: '#f8fafc',
+                padding: '48px 60px',
               }}
             >
-              🧠
+              {/* Stats grid */}
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '32px',
+                  width: '100%',
+                  justifyContent: 'center',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                    padding: '24px 40px',
+                    borderRadius: '16px',
+                    border: '1px solid #e2e8f0',
+                    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+                  }}
+                >
+                  <div style={{ display: 'flex', fontSize: '16px', color: '#94a3b8', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.05em' }}>
+                    難易度
+                  </div>
+                  <div style={{ display: 'flex', fontSize: '42px', fontWeight: 'bold', color: '#334155' }}>
+                    {difficulty}
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                    padding: '24px 40px',
+                    borderRadius: '16px',
+                    border: '1px solid #e2e8f0',
+                    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+                  }}
+                >
+                  <div style={{ display: 'flex', fontSize: '16px', color: '#94a3b8', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.05em' }}>
+                    質問数
+                  </div>
+                  <div style={{ display: 'flex', fontSize: '42px', fontWeight: 'bold', color: '#334155' }}>
+                    {questionCount}回
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer branding */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  marginTop: '40px',
+                  color: '#64748b',
+                  fontSize: '24px',
+                  fontWeight: 'bold',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '40px',
+                    height: '40px',
+                    backgroundColor: '#4f46e5',
+                    borderRadius: '9999px',
+                    fontSize: '24px',
+                  }}
+                >
+                  🧠
+                </div>
+                <div style={{ display: 'flex' }}>Reverse Akinator</div>
+              </div>
             </div>
-            <div style={{ display: 'flex' }}>Reverse Akinator</div>
           </div>
         </div>
       ),
