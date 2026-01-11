@@ -164,15 +164,15 @@ export function ResultModal({
                 onClick={onShare}
                 className="flex-[2] py-3 rounded-xl bg-emerald-500 text-white font-bold text-sm hover:bg-emerald-600 shadow-lg hover:shadow-emerald-200 transition flex items-center justify-center gap-2 transform active:scale-95"
               >
-                <Share2 size={16} /> Twitterでシェア
+                <Share2 size={16} /> シェア
               </button>
-              <button
+              {/* <button
                 onClick={onPreviewImage}
                 className="flex-1 py-3 rounded-xl border-2 border-emerald-500 text-emerald-700 font-bold text-sm hover:bg-emerald-50 transition flex items-center justify-center gap-2"
                 title="シェア画像をプレビュー"
               >
                 <Image size={16} /> 画像
-              </button>
+              </button> */}
             </div>
           )}
 

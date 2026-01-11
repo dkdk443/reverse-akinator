@@ -4,16 +4,16 @@ import { getAllPersons, getAllAttributes, getPersonAttributes } from '@/lib/db';
 export async function GET() {
   try {
     // 全人物を取得
-    const persons = getAllPersons();
+    const persons = await getAllPersons();
 
     // 全属性を取得
-    const attributes = getAllAttributes();
+    const attributes = await getAllAttributes();
 
     // 全人物の属性データを取得
     const personAttributes: Array<{ person_id: number; attribute_id: number; value: boolean }> = [];
 
-    persons.forEach(person => {
-      const attrs = getPersonAttributes(person.id);
+    for (const person of persons) {
+      const attrs = await getPersonAttributes(person.id);
       attrs.forEach(attr => {
         personAttributes.push({
           person_id: attr.person_id,
@@ -21,7 +21,7 @@ export async function GET() {
           value: attr.value,
         });
       });
-    });
+    }
 
     return NextResponse.json({
       persons,

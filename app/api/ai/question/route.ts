@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 対象人物を取得
-    const targetPerson = getPersonById(targetPersonId);
+    const targetPerson = await getPersonById(targetPersonId);
     if (!targetPerson) {
       return NextResponse.json(
         { error: 'Person not found' },
