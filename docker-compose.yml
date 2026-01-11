@@ -9,8 +9,12 @@ services:
     container_name: reverse-akinator
     ports:
       - "3000:3000"
+    env_file:
+      - .env
     environment:
       - NODE_ENV=production
+      - DATABASE_PATH=/app/data/persons.db
+      - TURSO_DATABASE_URL=
     volumes:
       - ./data:/app/data
     restart: unless-stopped
@@ -27,6 +31,8 @@ services:
       - .env
     environment:
       - NODE_ENV=development
+      - DATABASE_PATH=/app/data/persons.db
+      - TURSO_DATABASE_URL=
     volumes:
       - .:/app
       - /app/node_modules
