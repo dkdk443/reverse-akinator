@@ -69,6 +69,9 @@ const persons = parseCSV(personsCSV).map(p => ({
   recommended_for: p.recommended_for || null,
   trivia_level: p.trivia_level ? parseInt(p.trivia_level) : null,
   catchphrase: p.catchphrase || null,
+  hint1: p.hint1 || null,
+  hint2: p.hint2 || null,
+  hint3: p.hint3 || null,
 }));
 
 fs.writeFileSync(

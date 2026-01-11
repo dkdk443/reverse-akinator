@@ -103,55 +103,34 @@ export function useQuestions(params: UseQuestionsParams) {
     }, 600);
   };
 
-  // ヒント機能
-  const handleAskHint = async () => {
-    if (!targetPerson || !sessionId || hintRemaining === 0 || isAiThinking) return;
+  // ヒント機能（静的データから取得）
+  const handleAskHint = () => {
+    if (!targetPerson || hintRemaining === 0) return;
 
     const hintNumber = 4 - hintRemaining;
     setHintRemaining(prev => prev - 1);
     setChatHistory(prev => [...prev, { type: 'user', text: 'ヒントをください', highlight: 'neutral' }]);
-    setIsAiThinking(true);
 
-    try {
-      const response = await fetch('/api/ai/hint', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId,
-          targetPersonName: targetPerson.name,
-          hintNumber,
-        }),
-      });
+    // targetPersonからヒントを取得
+    const hints = [targetPerson.hint1, targetPerson.hint2, targetPerson.hint3];
+    const hint = hints[hintNumber - 1];
 
-      const data = await response.json();
-
-      if (!response.ok || !data.hint) {
+    setTimeout(() => {
+      if (hint) {
         setChatHistory(prev => [...prev, {
           type: 'ai',
-          text: data.error || 'ヒントの取得に失敗しました',
+          text: `💡 ${hint}`,
+          highlight: 'neutral'
+        }]);
+      } else {
+        setChatHistory(prev => [...prev, {
+          type: 'ai',
+          text: 'ヒントが見つかりませんでした',
           highlight: 'neutral'
         }]);
         setHintRemaining(prev => prev + 1);
-        setIsAiThinking(false);
-        return;
       }
-
-      setChatHistory(prev => [...prev, {
-        type: 'ai',
-        text: `💡 ${data.hint}`,
-        highlight: 'neutral'
-      }]);
-    } catch (error) {
-      console.error('Hint request failed:', error);
-      setChatHistory(prev => [...prev, {
-        type: 'ai',
-        text: '通信エラーが発生しました',
-        highlight: 'neutral'
-      }]);
-      setHintRemaining(prev => prev + 1);
-    } finally {
-      setIsAiThinking(false);
-    }
+    }, 600);
   };
 
   // AI質問

@@ -21,6 +21,9 @@ export interface Person {
   catchphrase: string | null;
   description: string | null;
   image_url: string | null;
+  hint1: string | null;
+  hint2: string | null;
+  hint3: string | null;
 }
 
 export interface Attribute {
