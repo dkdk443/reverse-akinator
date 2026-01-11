@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
   History,
@@ -58,7 +58,7 @@ const DIFFICULTY_LABELS = {
   all: 'すべて',
 };
 
-export default function GamePage() {
+function GamePageContent() {
   const searchParams = useSearchParams();
   const difficulty = (searchParams.get('difficulty') as Difficulty) || 'normal';
   const gameId = searchParams.get('gameId') || '';
@@ -329,5 +329,20 @@ export default function GamePage() {
         )}
       </main>
     </div>
+  );
+}
+
+export default function GamePage() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center h-screen bg-slate-50">
+        <div className="text-center">
+          <BrainCircuit size={48} className="animate-pulse text-indigo-600 mx-auto mb-4" />
+          <p className="text-slate-600">ゲームを準備中...</p>
+        </div>
+      </div>
+    }>
+      <GamePageContent />
+    </Suspense>
   );
 }
