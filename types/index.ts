@@ -36,14 +36,6 @@ export interface PersonAttribute {
   value: boolean;
 }
 
-export interface GameSession {
-  id: number;
-  person_id: number;
-  question_count: number | null;
-  is_correct: boolean | null;
-  created_at: string;
-}
-
 // Enums
 export type AttributeCategory =
   | 'era'        // 年代

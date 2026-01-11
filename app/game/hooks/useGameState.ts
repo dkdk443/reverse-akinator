@@ -63,8 +63,8 @@ export function useGameState(difficulty: Difficulty, gameId: string) {
   useEffect(() => {
     async function initGame() {
       try {
-        // データ取得
-        const dataRes = await fetch('/api/data/init');
+        // 静的JSONからデータ取得
+        const dataRes = await fetch('/data/gameData.json');
         const data = await dataRes.json();
         setPersons(data.persons);
         setAttributes(data.attributes);
@@ -89,7 +89,7 @@ export function useGameState(difficulty: Difficulty, gameId: string) {
         const randomPerson = filteredPersons[Math.floor(Math.random() * filteredPersons.length)];
         setTargetPerson(randomPerson);
 
-        console.log('Target (Debug):', randomPerson.name, '| Difficulty:', difficulty, '| Trivia Level:', randomPerson.trivia_level);
+        // console.log('Target (Debug):', randomPerson.name, '| Difficulty:', difficulty, '| Trivia Level:', randomPerson.trivia_level);
         setIsLoading(false);
       } catch (error) {
         console.error('Failed to init game:', error);

@@ -1,0 +1,832 @@
+[
+  {
+    "person_id": 1,
+    "attribute_id": 3,
+    "value": true
+  },
+  {
+    "person_id": 1,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 1,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 1,
+    "attribute_id": 17,
+    "value": true
+  },
+  {
+    "person_id": 1,
+    "attribute_id": 23,
+    "value": true
+  },
+  {
+    "person_id": 1,
+    "attribute_id": 14,
+    "value": true
+  },
+  {
+    "person_id": 2,
+    "attribute_id": 3,
+    "value": true
+  },
+  {
+    "person_id": 2,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 2,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 2,
+    "attribute_id": 17,
+    "value": true
+  },
+  {
+    "person_id": 2,
+    "attribute_id": 16,
+    "value": true
+  },
+  {
+    "person_id": 2,
+    "attribute_id": 23,
+    "value": true
+  },
+  {
+    "person_id": 3,
+    "attribute_id": 3,
+    "value": true
+  },
+  {
+    "person_id": 3,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 3,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 3,
+    "attribute_id": 17,
+    "value": true
+  },
+  {
+    "person_id": 3,
+    "attribute_id": 16,
+    "value": true
+  },
+  {
+    "person_id": 3,
+    "attribute_id": 23,
+    "value": true
+  },
+  {
+    "person_id": 3,
+    "attribute_id": 15,
+    "value": true
+  },
+  {
+    "person_id": 4,
+    "attribute_id": 4,
+    "value": true
+  },
+  {
+    "person_id": 4,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 4,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 4,
+    "attribute_id": 16,
+    "value": true
+  },
+  {
+    "person_id": 4,
+    "attribute_id": 24,
+    "value": true
+  },
+  {
+    "person_id": 4,
+    "attribute_id": 14,
+    "value": true
+  },
+  {
+    "person_id": 5,
+    "attribute_id": 4,
+    "value": true
+  },
+  {
+    "person_id": 5,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 5,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 5,
+    "attribute_id": 17,
+    "value": true
+  },
+  {
+    "person_id": 5,
+    "attribute_id": 16,
+    "value": true
+  },
+  {
+    "person_id": 5,
+    "attribute_id": 23,
+    "value": true
+  },
+  {
+    "person_id": 6,
+    "attribute_id": 4,
+    "value": true
+  },
+  {
+    "person_id": 6,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 6,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 6,
+    "attribute_id": 20,
+    "value": true
+  },
+  {
+    "person_id": 6,
+    "attribute_id": 25,
+    "value": true
+  },
+  {
+    "person_id": 7,
+    "attribute_id": 4,
+    "value": true
+  },
+  {
+    "person_id": 7,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 7,
+    "attribute_id": 13,
+    "value": true
+  },
+  {
+    "person_id": 7,
+    "attribute_id": 20,
+    "value": true
+  },
+  {
+    "person_id": 7,
+    "attribute_id": 25,
+    "value": true
+  },
+  {
+    "person_id": 7,
+    "attribute_id": 14,
+    "value": true
+  },
+  {
+    "person_id": 8,
+    "attribute_id": 4,
+    "value": true
+  },
+  {
+    "person_id": 8,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 8,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 8,
+    "attribute_id": 19,
+    "value": true
+  },
+  {
+    "person_id": 9,
+    "attribute_id": 2,
+    "value": true
+  },
+  {
+    "person_id": 9,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 9,
+    "attribute_id": 13,
+    "value": true
+  },
+  {
+    "person_id": 9,
+    "attribute_id": 20,
+    "value": true
+  },
+  {
+    "person_id": 9,
+    "attribute_id": 25,
+    "value": true
+  },
+  {
+    "person_id": 10,
+    "attribute_id": 1,
+    "value": true
+  },
+  {
+    "person_id": 10,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 10,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 10,
+    "attribute_id": 16,
+    "value": true
+  },
+  {
+    "person_id": 11,
+    "attribute_id": 2,
+    "value": true
+  },
+  {
+    "person_id": 11,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 11,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 11,
+    "attribute_id": 17,
+    "value": true
+  },
+  {
+    "person_id": 11,
+    "attribute_id": 23,
+    "value": true
+  },
+  {
+    "person_id": 11,
+    "attribute_id": 14,
+    "value": true
+  },
+  {
+    "person_id": 12,
+    "attribute_id": 3,
+    "value": true
+  },
+  {
+    "person_id": 12,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 12,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 12,
+    "attribute_id": 18,
+    "value": true
+  },
+  {
+    "person_id": 12,
+    "attribute_id": 25,
+    "value": true
+  },
+  {
+    "person_id": 12,
+    "attribute_id": 15,
+    "value": true
+  },
+  {
+    "person_id": 13,
+    "attribute_id": 4,
+    "value": true
+  },
+  {
+    "person_id": 13,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 13,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 13,
+    "attribute_id": 16,
+    "value": true
+  },
+  {
+    "person_id": 14,
+    "attribute_id": 4,
+    "value": true
+  },
+  {
+    "person_id": 14,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 14,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 14,
+    "attribute_id": 22,
+    "value": true
+  },
+  {
+    "person_id": 14,
+    "attribute_id": 20,
+    "value": true
+  },
+  {
+    "person_id": 14,
+    "attribute_id": 25,
+    "value": true
+  },
+  {
+    "person_id": 15,
+    "attribute_id": 5,
+    "value": true
+  },
+  {
+    "person_id": 15,
+    "attribute_id": 6,
+    "value": true
+  },
+  {
+    "person_id": 15,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 15,
+    "attribute_id": 18,
+    "value": true
+  },
+  {
+    "person_id": 15,
+    "attribute_id": 25,
+    "value": true
+  },
+  {
+    "person_id": 16,
+    "attribute_id": 4,
+    "value": true
+  },
+  {
+    "person_id": 16,
+    "attribute_id": 8,
+    "value": true
+  },
+  {
+    "person_id": 16,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 16,
+    "attribute_id": 17,
+    "value": true
+  },
+  {
+    "person_id": 16,
+    "attribute_id": 16,
+    "value": true
+  },
+  {
+    "person_id": 16,
+    "attribute_id": 23,
+    "value": true
+  },
+  {
+    "person_id": 16,
+    "attribute_id": 24,
+    "value": true
+  },
+  {
+    "person_id": 17,
+    "attribute_id": 1,
+    "value": true
+  },
+  {
+    "person_id": 17,
+    "attribute_id": 11,
+    "value": true
+  },
+  {
+    "person_id": 17,
+    "attribute_id": 13,
+    "value": true
+  },
+  {
+    "person_id": 17,
+    "attribute_id": 16,
+    "value": true
+  },
+  {
+    "person_id": 17,
+    "attribute_id": 14,
+    "value": true
+  },
+  {
+    "person_id": 18,
+    "attribute_id": 3,
+    "value": true
+  },
+  {
+    "person_id": 18,
+    "attribute_id": 8,
+    "value": true
+  },
+  {
+    "person_id": 18,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 18,
+    "attribute_id": 18,
+    "value": true
+  },
+  {
+    "person_id": 18,
+    "attribute_id": 19,
+    "value": true
+  },
+  {
+    "person_id": 18,
+    "attribute_id": 25,
+    "value": true
+  },
+  {
+    "person_id": 19,
+    "attribute_id": 3,
+    "value": true
+  },
+  {
+    "person_id": 19,
+    "attribute_id": 8,
+    "value": true
+  },
+  {
+    "person_id": 19,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 19,
+    "attribute_id": 21,
+    "value": true
+  },
+  {
+    "person_id": 19,
+    "attribute_id": 25,
+    "value": true
+  },
+  {
+    "person_id": 19,
+    "attribute_id": 14,
+    "value": true
+  },
+  {
+    "person_id": 20,
+    "attribute_id": 5,
+    "value": true
+  },
+  {
+    "person_id": 20,
+    "attribute_id": 8,
+    "value": true
+  },
+  {
+    "person_id": 20,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 20,
+    "attribute_id": 19,
+    "value": true
+  },
+  {
+    "person_id": 20,
+    "attribute_id": 26,
+    "value": true
+  },
+  {
+    "person_id": 20,
+    "attribute_id": 15,
+    "value": true
+  },
+  {
+    "person_id": 21,
+    "attribute_id": 4,
+    "value": true
+  },
+  {
+    "person_id": 21,
+    "attribute_id": 8,
+    "value": true
+  },
+  {
+    "person_id": 21,
+    "attribute_id": 13,
+    "value": true
+  },
+  {
+    "person_id": 21,
+    "attribute_id": 19,
+    "value": true
+  },
+  {
+    "person_id": 21,
+    "attribute_id": 26,
+    "value": true
+  },
+  {
+    "person_id": 22,
+    "attribute_id": 5,
+    "value": true
+  },
+  {
+    "person_id": 22,
+    "attribute_id": 10,
+    "value": true
+  },
+  {
+    "person_id": 22,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 22,
+    "attribute_id": 16,
+    "value": true
+  },
+  {
+    "person_id": 22,
+    "attribute_id": 22,
+    "value": true
+  },
+  {
+    "person_id": 22,
+    "attribute_id": 24,
+    "value": true
+  },
+  {
+    "person_id": 23,
+    "attribute_id": 5,
+    "value": true
+  },
+  {
+    "person_id": 23,
+    "attribute_id": 10,
+    "value": true
+  },
+  {
+    "person_id": 23,
+    "attribute_id": 13,
+    "value": true
+  },
+  {
+    "person_id": 23,
+    "attribute_id": 22,
+    "value": true
+  },
+  {
+    "person_id": 23,
+    "attribute_id": 26,
+    "value": true
+  },
+  {
+    "person_id": 23,
+    "attribute_id": 15,
+    "value": true
+  },
+  {
+    "person_id": 24,
+    "attribute_id": 3,
+    "value": true
+  },
+  {
+    "person_id": 24,
+    "attribute_id": 8,
+    "value": true
+  },
+  {
+    "person_id": 24,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 24,
+    "attribute_id": 20,
+    "value": true
+  },
+  {
+    "person_id": 24,
+    "attribute_id": 25,
+    "value": true
+  },
+  {
+    "person_id": 25,
+    "attribute_id": 4,
+    "value": true
+  },
+  {
+    "person_id": 25,
+    "attribute_id": 8,
+    "value": true
+  },
+  {
+    "person_id": 25,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 25,
+    "attribute_id": 21,
+    "value": true
+  },
+  {
+    "person_id": 25,
+    "attribute_id": 25,
+    "value": true
+  },
+  {
+    "person_id": 26,
+    "attribute_id": 5,
+    "value": true
+  },
+  {
+    "person_id": 26,
+    "attribute_id": 8,
+    "value": true
+  },
+  {
+    "person_id": 26,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 26,
+    "attribute_id": 18,
+    "value": true
+  },
+  {
+    "person_id": 26,
+    "attribute_id": 25,
+    "value": true
+  },
+  {
+    "person_id": 27,
+    "attribute_id": 5,
+    "value": true
+  },
+  {
+    "person_id": 27,
+    "attribute_id": 8,
+    "value": true
+  },
+  {
+    "person_id": 27,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 27,
+    "attribute_id": 18,
+    "value": true
+  },
+  {
+    "person_id": 27,
+    "attribute_id": 25,
+    "value": true
+  },
+  {
+    "person_id": 27,
+    "attribute_id": 15,
+    "value": true
+  },
+  {
+    "person_id": 28,
+    "attribute_id": 4,
+    "value": true
+  },
+  {
+    "person_id": 28,
+    "attribute_id": 9,
+    "value": true
+  },
+  {
+    "person_id": 28,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 28,
+    "attribute_id": 16,
+    "value": true
+  },
+  {
+    "person_id": 28,
+    "attribute_id": 23,
+    "value": true
+  },
+  {
+    "person_id": 29,
+    "attribute_id": 5,
+    "value": true
+  },
+  {
+    "person_id": 29,
+    "attribute_id": 9,
+    "value": true
+  },
+  {
+    "person_id": 29,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 29,
+    "attribute_id": 16,
+    "value": true
+  },
+  {
+    "person_id": 29,
+    "attribute_id": 14,
+    "value": true
+  },
+  {
+    "person_id": 30,
+    "attribute_id": 2,
+    "value": true
+  },
+  {
+    "person_id": 30,
+    "attribute_id": 7,
+    "value": true
+  },
+  {
+    "person_id": 30,
+    "attribute_id": 12,
+    "value": true
+  },
+  {
+    "person_id": 30,
+    "attribute_id": 17,
+    "value": true
+  },
+  {
+    "person_id": 30,
+    "attribute_id": 16,
+    "value": true
+  },
+  {
+    "person_id": 30,
+    "attribute_id": 23,
+    "value": true
+  }
+]

@@ -1,0 +1,542 @@
+[
+  {
+    "id": 1,
+    "category": "era",
+    "question": "古代の人ですか？",
+    "attribute_key": "era_ancient"
+  },
+  {
+    "id": 2,
+    "category": "era",
+    "question": "中世の人ですか？",
+    "attribute_key": "era_medieval"
+  },
+  {
+    "id": 3,
+    "category": "era",
+    "question": "近世の人ですか？",
+    "attribute_key": "era_early_modern"
+  },
+  {
+    "id": 4,
+    "category": "era",
+    "question": "近代の人ですか？",
+    "attribute_key": "era_modern"
+  },
+  {
+    "id": 5,
+    "category": "era",
+    "question": "現代の人ですか？",
+    "attribute_key": "era_contemporary"
+  },
+  {
+    "id": 6,
+    "category": "region",
+    "question": "日本人ですか？",
+    "attribute_key": "region_japan"
+  },
+  {
+    "id": 7,
+    "category": "region",
+    "question": "中国・モンゴルの人ですか？",
+    "attribute_key": "region_china_mongolia"
+  },
+  {
+    "id": 8,
+    "category": "region",
+    "question": "ヨーロッパの人ですか？",
+    "attribute_key": "region_europe"
+  },
+  {
+    "id": 9,
+    "category": "region",
+    "question": "アメリカの人ですか？",
+    "attribute_key": "region_america"
+  },
+  {
+    "id": 10,
+    "category": "region",
+    "question": "その他のアジアの人ですか？",
+    "attribute_key": "region_other_asia"
+  },
+  {
+    "id": 11,
+    "category": "region",
+    "question": "アフリカの人ですか？",
+    "attribute_key": "region_africa"
+  },
+  {
+    "id": 12,
+    "category": "gender",
+    "question": "男性ですか？",
+    "attribute_key": "gender_male"
+  },
+  {
+    "id": 13,
+    "category": "gender",
+    "question": "女性ですか？",
+    "attribute_key": "gender_female"
+  },
+  {
+    "id": 14,
+    "category": "age",
+    "question": "若くして亡くなりましたか（50歳未満）？",
+    "attribute_key": "age_died_young"
+  },
+  {
+    "id": 15,
+    "category": "age",
+    "question": "長生きしましたか（80歳以上）？",
+    "attribute_key": "age_long_lived"
+  },
+  {
+    "id": 16,
+    "category": "occupation",
+    "question": "政治家ですか？",
+    "attribute_key": "occupation_politician"
+  },
+  {
+    "id": 17,
+    "category": "occupation",
+    "question": "軍人・武将ですか？",
+    "attribute_key": "occupation_military"
+  },
+  {
+    "id": 18,
+    "category": "occupation",
+    "question": "芸術家ですか？",
+    "attribute_key": "occupation_artist"
+  },
+  {
+    "id": 19,
+    "category": "occupation",
+    "question": "科学者ですか？",
+    "attribute_key": "occupation_scientist"
+  },
+  {
+    "id": 20,
+    "category": "occupation",
+    "question": "作家ですか？",
+    "attribute_key": "occupation_writer"
+  },
+  {
+    "id": 21,
+    "category": "occupation",
+    "question": "音楽家ですか？",
+    "attribute_key": "occupation_musician"
+  },
+  {
+    "id": 22,
+    "category": "occupation",
+    "question": "思想家・宗教家ですか？",
+    "attribute_key": "occupation_philosopher"
+  },
+  {
+    "id": 23,
+    "category": "occupation",
+    "question": "実業家・起業家ですか？",
+    "attribute_key": "occupation_entrepreneur"
+  },
+  {
+    "id": 24,
+    "category": "occupation",
+    "question": "俳優・エンターテイナーですか？",
+    "attribute_key": "occupation_entertainer"
+  },
+  {
+    "id": 25,
+    "category": "occupation",
+    "question": "発明家ですか？",
+    "attribute_key": "occupation_inventor"
+  },
+  {
+    "id": 26,
+    "category": "occupation",
+    "question": "医師・看護師ですか？",
+    "attribute_key": "occupation_medical"
+  },
+  {
+    "id": 27,
+    "category": "trait",
+    "question": "戦いに関わりましたか？",
+    "attribute_key": "trait_battle"
+  },
+  {
+    "id": 28,
+    "category": "trait",
+    "question": "革命を起こしましたか？",
+    "attribute_key": "trait_revolution"
+  },
+  {
+    "id": 29,
+    "category": "trait",
+    "question": "芸術作品を残しましたか？",
+    "attribute_key": "trait_artwork"
+  },
+  {
+    "id": 30,
+    "category": "trait",
+    "question": "ノーベル賞を受賞しましたか？",
+    "attribute_key": "trait_nobel"
+  },
+  {
+    "id": 31,
+    "category": "trait",
+    "question": "暗殺されましたか？",
+    "attribute_key": "trait_assassinated"
+  },
+  {
+    "id": 32,
+    "category": "trait",
+    "question": "悲劇的な死を遂げましたか？",
+    "attribute_key": "trait_tragic_death"
+  },
+  {
+    "id": 33,
+    "category": "trait",
+    "question": "独裁者でしたか？",
+    "attribute_key": "trait_dictator"
+  },
+  {
+    "id": 34,
+    "category": "trait",
+    "question": "宗教を広めましたか？",
+    "attribute_key": "trait_religious_founder"
+  },
+  {
+    "id": 35,
+    "category": "trait",
+    "question": "法律や憲法を作りましたか？",
+    "attribute_key": "trait_lawmaker"
+  },
+  {
+    "id": 36,
+    "category": "personality",
+    "question": "完璧主義でしたか？",
+    "attribute_key": "personality_perfectionist"
+  },
+  {
+    "id": 37,
+    "category": "personality",
+    "question": "情熱的でしたか？",
+    "attribute_key": "personality_passionate"
+  },
+  {
+    "id": 38,
+    "category": "personality",
+    "question": "慎重派でしたか？",
+    "attribute_key": "personality_cautious"
+  },
+  {
+    "id": 39,
+    "category": "personality",
+    "question": "革新的でしたか？",
+    "attribute_key": "personality_innovative"
+  },
+  {
+    "id": 40,
+    "category": "personality",
+    "question": "頑固でしたか？",
+    "attribute_key": "personality_stubborn"
+  },
+  {
+    "id": 41,
+    "category": "personality",
+    "question": "優しい・献身的でしたか？",
+    "attribute_key": "personality_kind"
+  },
+  {
+    "id": 42,
+    "category": "personality",
+    "question": "野心家でしたか？",
+    "attribute_key": "personality_ambitious"
+  },
+  {
+    "id": 43,
+    "category": "lifestyle",
+    "question": "独身でしたか？",
+    "attribute_key": "lifestyle_single"
+  },
+  {
+    "id": 44,
+    "category": "lifestyle",
+    "question": "子供がたくさんいましたか（10人以上）？",
+    "attribute_key": "lifestyle_many_children"
+  },
+  {
+    "id": 45,
+    "category": "lifestyle",
+    "question": "貧困を経験しましたか？",
+    "attribute_key": "lifestyle_poverty"
+  },
+  {
+    "id": 46,
+    "category": "lifestyle",
+    "question": "旅をしましたか？",
+    "attribute_key": "lifestyle_traveler"
+  },
+  {
+    "id": 47,
+    "category": "lifestyle",
+    "question": "引きこもり気質でしたか？",
+    "attribute_key": "lifestyle_reclusive"
+  },
+  {
+    "id": 48,
+    "category": "achievement",
+    "question": "国を作りましたか？",
+    "attribute_key": "achievement_nation_builder"
+  },
+  {
+    "id": 49,
+    "category": "achievement",
+    "question": "世界的に有名になりましたか？",
+    "attribute_key": "achievement_world_famous"
+  },
+  {
+    "id": 50,
+    "category": "achievement",
+    "question": "生前は無名でしたか？",
+    "attribute_key": "achievement_posthumous_fame"
+  },
+  {
+    "id": 51,
+    "category": "achievement",
+    "question": "お札の肖像になりましたか？",
+    "attribute_key": "achievement_currency"
+  },
+  {
+    "id": 52,
+    "category": "achievement",
+    "question": "複数の分野で活躍しましたか？",
+    "attribute_key": "achievement_multitalented"
+  },
+  {
+    "id": 53,
+    "category": "achievement",
+    "question": "教育機関を作りましたか？",
+    "attribute_key": "achievement_educator"
+  },
+  {
+    "id": 54,
+    "category": "creative",
+    "question": "絵を描きましたか？",
+    "attribute_key": "creative_painting"
+  },
+  {
+    "id": 55,
+    "category": "creative",
+    "question": "音楽を作りましたか？",
+    "attribute_key": "creative_music"
+  },
+  {
+    "id": 56,
+    "category": "creative",
+    "question": "小説や詩を書きましたか？",
+    "attribute_key": "creative_literature"
+  },
+  {
+    "id": 57,
+    "category": "creative",
+    "question": "映画を作りましたか？",
+    "attribute_key": "creative_film"
+  },
+  {
+    "id": 58,
+    "category": "creative",
+    "question": "建築に関わりましたか？",
+    "attribute_key": "creative_architecture"
+  },
+  {
+    "id": 59,
+    "category": "impact",
+    "question": "戦争を起こしましたか？",
+    "attribute_key": "impact_war_starter"
+  },
+  {
+    "id": 60,
+    "category": "impact",
+    "question": "平和をもたらしましたか？",
+    "attribute_key": "impact_peacemaker"
+  },
+  {
+    "id": 61,
+    "category": "impact",
+    "question": "人権のために戦いましたか？",
+    "attribute_key": "impact_human_rights"
+  },
+  {
+    "id": 62,
+    "category": "impact",
+    "question": "科学技術を発展させましたか？",
+    "attribute_key": "impact_tech_advancement"
+  },
+  {
+    "id": 63,
+    "category": "impact",
+    "question": "社会を大きく変えましたか？",
+    "attribute_key": "impact_social_change"
+  },
+  {
+    "id": 64,
+    "category": "impact",
+    "question": "西洋文化に影響を与えましたか？",
+    "attribute_key": "impact_western_influence"
+  },
+  {
+    "id": 65,
+    "category": "impact",
+    "question": "東洋文化に影響を与えましたか？",
+    "attribute_key": "impact_eastern_influence"
+  },
+  {
+    "id": 66,
+    "category": "modern_context",
+    "question": "今も作品が人気ですか？",
+    "attribute_key": "modern_popular_works"
+  },
+  {
+    "id": 67,
+    "category": "modern_context",
+    "question": "名言で有名ですか？",
+    "attribute_key": "modern_famous_quotes"
+  },
+  {
+    "id": 68,
+    "category": "modern_context",
+    "question": "論争の的になっていますか？",
+    "attribute_key": "modern_controversial"
+  },
+  {
+    "id": 69,
+    "category": "modern_context",
+    "question": "教科書に載っていますか？",
+    "attribute_key": "modern_textbook"
+  },
+  {
+    "id": 70,
+    "category": "modern_context",
+    "question": "映画やドラマの題材になりましたか？",
+    "attribute_key": "modern_media_subject"
+  },
+  {
+    "id": 71,
+    "category": "trivia",
+    "question": "本名ではない名前で知られていますか？",
+    "attribute_key": "trivia_pseudonym"
+  },
+  {
+    "id": 72,
+    "category": "trivia",
+    "question": "外見的特徴で有名ですか？",
+    "attribute_key": "trivia_distinctive_appearance"
+  },
+  {
+    "id": 73,
+    "category": "trivia",
+    "question": "意外な趣味や特技がありましたか？",
+    "attribute_key": "trivia_unexpected_hobby"
+  },
+  {
+    "id": 74,
+    "category": "trivia",
+    "question": "都市伝説がありますか？",
+    "attribute_key": "trivia_urban_legend"
+  },
+  {
+    "id": 75,
+    "category": "trivia",
+    "question": "死因が謎ですか？",
+    "attribute_key": "trivia_mysterious_death"
+  },
+  {
+    "id": 76,
+    "category": "historical_period",
+    "question": "戦国時代の人ですか？",
+    "attribute_key": "period_sengoku"
+  },
+  {
+    "id": 77,
+    "category": "historical_period",
+    "question": "江戸時代の人ですか？",
+    "attribute_key": "period_edo"
+  },
+  {
+    "id": 78,
+    "category": "historical_period",
+    "question": "明治時代の人ですか？",
+    "attribute_key": "period_meiji"
+  },
+  {
+    "id": 79,
+    "category": "historical_period",
+    "question": "幕末の人ですか？",
+    "attribute_key": "period_bakumatsu"
+  },
+  {
+    "id": 80,
+    "category": "historical_period",
+    "question": "ルネサンス期の人ですか？",
+    "attribute_key": "period_renaissance"
+  },
+  {
+    "id": 81,
+    "category": "historical_period",
+    "question": "産業革命期の人ですか？",
+    "attribute_key": "period_industrial"
+  },
+  {
+    "id": 82,
+    "category": "historical_period",
+    "question": "第二次世界大戦に関わりましたか？",
+    "attribute_key": "period_wwii"
+  },
+  {
+    "id": 83,
+    "category": "career",
+    "question": "元々別の職業でしたか？",
+    "attribute_key": "career_career_change"
+  },
+  {
+    "id": 84,
+    "category": "career",
+    "question": "若くして成功しましたか？",
+    "attribute_key": "career_early_success"
+  },
+  {
+    "id": 85,
+    "category": "career",
+    "question": "晩年に評価されましたか？",
+    "attribute_key": "career_late_recognition"
+  },
+  {
+    "id": 86,
+    "category": "career",
+    "question": "弟子や後継者が有名ですか？",
+    "attribute_key": "career_famous_disciples"
+  },
+  {
+    "id": 87,
+    "category": "relationship",
+    "question": "兄弟で有名ですか？",
+    "attribute_key": "relationship_siblings"
+  },
+  {
+    "id": 88,
+    "category": "relationship",
+    "question": "恋愛で有名ですか？",
+    "attribute_key": "relationship_romance"
+  },
+  {
+    "id": 89,
+    "category": "relationship",
+    "question": "師弟関係で有名ですか？",
+    "attribute_key": "relationship_mentor"
+  },
+  {
+    "id": 90,
+    "category": "relationship",
+    "question": "ライバルがいましたか？",
+    "attribute_key": "relationship_rival"
+  }
+]

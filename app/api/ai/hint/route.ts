@@ -5,10 +5,10 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { sessionId, targetPersonId, targetPersonName, hintNumber } = body;
+    const { sessionId, targetPersonName, hintNumber } = body;
 
     // バリデーション
-    if (!targetPersonId || !targetPersonName) {
+    if (!targetPersonName) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }

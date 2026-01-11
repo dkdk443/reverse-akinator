@@ -118,7 +118,6 @@ export function useQuestions(params: UseQuestionsParams) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           sessionId,
-          targetPersonId: targetPerson.id,
           targetPersonName: targetPerson.name,
           hintNumber,
         }),
@@ -181,7 +180,8 @@ export function useQuestions(params: UseQuestionsParams) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           sessionId,
-          targetPersonId: targetPerson.id,
+          targetPersonName: targetPerson.name,
+          targetPersonNameEn: targetPerson.name_en,
           question: questionText,
         }),
       });

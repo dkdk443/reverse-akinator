@@ -1,21 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession, incrementAiQuestionCount, getAiQuestionRemaining } from '@/lib/session';
-import { getPersonById } from '@/lib/db';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { sessionId, targetPersonId, question } = body;
+    const { sessionId, targetPersonName, targetPersonNameEn, question } = body;
 
     // バリデーション
-    if (!sessionId || !targetPersonId || !question) {
+    if (!sessionId || !targetPersonName || !question) {
       const missing = [];
       if (!sessionId) missing.push('sessionId');
-      if (!targetPersonId) missing.push('targetPersonId');
+      if (!targetPersonName) missing.push('targetPersonName');
       if (!question) missing.push('question');
-
-      console.error('AI question validation failed:', { sessionId, targetPersonId, question, missing });
 
       return NextResponse.json(
         { error: `Missing required fields: ${missing.join(', ')}` },
@@ -41,15 +38,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 対象人物を取得
-    const targetPerson = await getPersonById(targetPersonId);
-    if (!targetPerson) {
-      return NextResponse.json(
-        { error: 'Person not found' },
-        { status: 404 }
-      );
-    }
-
     // Gemini API呼び出し
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
@@ -64,8 +52,12 @@ export async function POST(request: NextRequest) {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
+    const personDisplay = targetPersonNameEn
+      ? `${targetPersonName} (${targetPersonNameEn})`
+      : targetPersonName;
+
     const systemPrompt = `あなたは「アキネーター」のような推理ゲームのAIゲームマスターです。
-正解の歴史上の人物は「${targetPerson.name} (${targetPerson.name_en})」です。
+正解の歴史上の人物は「${personDisplay}」です。
 ユーザーはこの人物を特定するために「はい」か「いいえ」で答えられる質問をしてきます。
 ユーザーの質問に対して、以下のいずれかの言葉だけで答えてください。
 
