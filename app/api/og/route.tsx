@@ -31,9 +31,9 @@ export async function GET(request: NextRequest) {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              width: '1000px',
+              width: '900px',
               backgroundColor: 'white',
-              borderRadius: '24px',
+              borderRadius: '20px',
               overflow: 'hidden',
               boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
             }}
@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
                 flexDirection: 'column',
                 alignItems: 'center',
                 backgroundColor: '#4f46e5',
-                padding: '48px 60px',
+                padding: '32px 48px',
               }}
             >
               {/* Icon circle */}
@@ -54,14 +54,14 @@ export async function GET(request: NextRequest) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '100px',
-                  height: '100px',
+                  width: '80px',
+                  height: '80px',
                   backgroundColor: 'white',
                   borderRadius: '9999px',
                   color: '#4f46e5',
-                  fontSize: '60px',
-                  marginBottom: '16px',
-                  boxShadow: '0 0 0 6px rgba(165, 180, 252, 0.5)',
+                  fontSize: '48px',
+                  marginBottom: '12px',
+                  boxShadow: '0 0 0 5px rgba(165, 180, 252, 0.5)',
                 }}
               >
                 {result === 'win' ? '✨' : '❌'}
@@ -71,15 +71,15 @@ export async function GET(request: NextRequest) {
               <div
                 style={{
                   display: 'flex',
-                  fontSize: '18px',
+                  fontSize: '14px',
                   color: '#c7d2fe',
                   fontWeight: 'bold',
                   textTransform: 'uppercase',
                   letterSpacing: '0.1em',
                   border: '2px solid rgba(165, 180, 252, 0.5)',
-                  padding: '4px 16px',
+                  padding: '3px 12px',
                   borderRadius: '9999px',
-                  marginBottom: '12px',
+                  marginBottom: '8px',
                 }}
               >
                 {result === 'win' ? '正解' : '不正解'}
@@ -89,10 +89,10 @@ export async function GET(request: NextRequest) {
               <div
                 style={{
                   display: 'flex',
-                  fontSize: '72px',
+                  fontSize: '56px',
                   fontWeight: 900,
                   color: 'white',
-                  marginBottom: '8px',
+                  marginBottom: '4px',
                   letterSpacing: '-0.02em',
                 }}
               >
@@ -104,11 +104,11 @@ export async function GET(request: NextRequest) {
                 <div
                   style={{
                     display: 'flex',
-                    fontSize: '20px',
+                    fontSize: '16px',
                     color: '#c7d2fe',
                     fontWeight: 600,
                     letterSpacing: '0.05em',
-                    marginBottom: '24px',
+                    marginBottom: catchphrase ? '12px' : '0px',
                   }}
                 >
                   {personNameEn}
@@ -122,9 +122,9 @@ export async function GET(request: NextRequest) {
                     display: 'flex',
                     backgroundColor: '#facc15',
                     color: '#713f12',
-                    fontSize: '20px',
+                    fontSize: '16px',
                     fontWeight: 'bold',
-                    padding: '8px 24px',
+                    padding: '6px 20px',
                     borderRadius: '9999px',
                     border: '2px solid #fde047',
                     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
@@ -143,14 +143,14 @@ export async function GET(request: NextRequest) {
                 flexDirection: 'column',
                 alignItems: 'center',
                 backgroundColor: '#f8fafc',
-                padding: '48px 60px',
+                padding: '32px 48px',
               }}
             >
               {/* Stats grid */}
               <div
                 style={{
                   display: 'flex',
-                  gap: '32px',
+                  gap: '24px',
                   width: '100%',
                   justifyContent: 'center',
                 }}
@@ -161,16 +161,16 @@ export async function GET(request: NextRequest) {
                     flexDirection: 'column',
                     alignItems: 'center',
                     backgroundColor: 'white',
-                    padding: '24px 40px',
-                    borderRadius: '16px',
+                    padding: '20px 32px',
+                    borderRadius: '12px',
                     border: '1px solid #e2e8f0',
                     boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
                   }}
                 >
-                  <div style={{ display: 'flex', fontSize: '16px', color: '#94a3b8', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.05em' }}>
+                  <div style={{ display: 'flex', fontSize: '13px', color: '#94a3b8', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.05em' }}>
                     難易度
                   </div>
-                  <div style={{ display: 'flex', fontSize: '42px', fontWeight: 'bold', color: '#334155' }}>
+                  <div style={{ display: 'flex', fontSize: '36px', fontWeight: 'bold', color: '#334155' }}>
                     {difficulty}
                   </div>
                 </div>
@@ -181,16 +181,16 @@ export async function GET(request: NextRequest) {
                     flexDirection: 'column',
                     alignItems: 'center',
                     backgroundColor: 'white',
-                    padding: '24px 40px',
-                    borderRadius: '16px',
+                    padding: '20px 32px',
+                    borderRadius: '12px',
                     border: '1px solid #e2e8f0',
                     boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
                   }}
                 >
-                  <div style={{ display: 'flex', fontSize: '16px', color: '#94a3b8', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.05em' }}>
+                  <div style={{ display: 'flex', fontSize: '13px', color: '#94a3b8', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.05em' }}>
                     質問数
                   </div>
-                  <div style={{ display: 'flex', fontSize: '42px', fontWeight: 'bold', color: '#334155' }}>
+                  <div style={{ display: 'flex', fontSize: '36px', fontWeight: 'bold', color: '#334155' }}>
                     {questionCount}回
                   </div>
                 </div>
@@ -201,10 +201,10 @@ export async function GET(request: NextRequest) {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '12px',
-                  marginTop: '40px',
+                  gap: '10px',
+                  marginTop: '28px',
                   color: '#64748b',
-                  fontSize: '24px',
+                  fontSize: '20px',
                   fontWeight: 'bold',
                 }}
               >
@@ -213,11 +213,11 @@ export async function GET(request: NextRequest) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: '40px',
-                    height: '40px',
+                    width: '36px',
+                    height: '36px',
                     backgroundColor: '#4f46e5',
                     borderRadius: '9999px',
-                    fontSize: '24px',
+                    fontSize: '20px',
                   }}
                 >
                   🧠
